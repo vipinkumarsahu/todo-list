@@ -2,35 +2,32 @@
 
 var express = require('express'),
     router = express.Router(),
-    mongoose = require('mongoose'),
-    Admin = mongoose.model('Admin'),
-    bcrypt = require('bcryptjs'),
-    validator = require('../validator/adminValidator');
-
-var saltRounds = 10;
-
-var encryptPassword = function (val) {
-    val = bcrypt.hashSync(val, saltRounds);;
-    return val;
-}
-
-var checkPassword = function (val, hash) {
-    if (bcrypt.compareSync(val, hash)) {
-        return true;
-    } else {
-        return false;
-    }
-}
+    path = require('path'),
+    Admin = require(path.normalize(__dirname + '/../models/AdminModel')),
+    validator = require(path.normalize(__dirname + '/../validators/loginValidator'));
 
 module.exports = function (app) {
-    app.use('/admin', router);
+    app.use('/', router);
 };
+
 //Login Get Function
 router.get('/login', function (req, res, next) {
+    /* var newUser = Admin({
+    name: 'Admin',
+    email: 'ankit@trancis.com',
+    password: '123456'
+  });
+
+  // save the user
+  newUser.save(function (err) {
+    if (err) throw err;
+
+    console.log('User created!');
+  }); */
     res.render('login', {
-        title: 'TapRecharge',
+        title: 'KoineyAdmin',
         loginType: 'admin',
-        loginAction: '/admin/login',
+        loginAction: '/login',
     });
 });
 
@@ -41,9 +38,9 @@ router.post('/login', function (req, res, next) {
     var errors = req.validationErrors();
     if (errors) {
         res.render('login', {
-            title: 'TapRecharge',
+            title: 'KoineyAdmin',
             loginType: 'superAdmin',
-            loginAction: '/admin/login',
+            loginAction: '/login',
             errors: errors
         });
         return;
@@ -53,27 +50,28 @@ router.post('/login', function (req, res, next) {
         if (keepSignIn == '1') {
             //code to set session from cookie data
         }
-
-        var where = "username='" + req.body.username + "'";
-        db.mainModel.selectData("admins", where, function (err, data) {
+        var password = req.body.password;
+        Admin.findOne({ email: req.body.email }, function (err, data) {
             if (err) {
                 res.send(err);
-            } else if (data.length === 0) {
+            } else if (!data) {
                 req.flash('errors', [{
                     msg: "Invalid username"
                 }]);
-                res.redirect('/admin/login');
+                res.redirect('/login');
             } else {
-                if (checkPassword(req.body.password, data[0].password) /* && data[0].status != '0'*/) {
-                    req.session.superAdmin = data[0];
-                    if (data[0].type == 0) {
+                data = data.toObject();
+                if (globalFunctions.checkPassword(req.body.password, data.password) /* && data.status != '0'*/) {
+                    delete data.password;
+                    req.session.admin = data;
+                    if (data.type == 0) {
                         req.session.role = "superadmin";
                     }
                     else {
                         req.session.role = "admin";
                     }
 
-                    res.redirect('/admin/dashboard');
+                    res.redirect('/dashboard');
                 } else {
                     errors.push({
                         msg: "Invalid Password"
@@ -81,21 +79,22 @@ router.post('/login', function (req, res, next) {
 
                     //login Failed Incorrect credentials
                     res.render('login', {
-                        title: 'TapRecharge',
+                        title: 'KoineyAdmin',
                         loginType: 'superAdmin',
-                        loginAction: '/admin/login',
+                        loginAction: '/login',
                         errors: errors,
                         loginFailed: 'true'
                     });
                 }
             }
         });
+        
     }
 });
 
 //Logout Function
 router.get('/logout', function (req, res, next) {
     req.session.destroy(function (err) {
-        res.redirect('/admin/login');
+        res.redirect('/login');
     });
 });

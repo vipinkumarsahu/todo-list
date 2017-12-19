@@ -2,7 +2,7 @@
           <div class="copyright sm-text-center">
             <p class="small no-margin pull-left sm-pull-reset">
               <span class="hint-text">Copyright &copy; 2017 </span>
-              <span class="font-montserrat">TapRecharge</span>.
+              <span class="font-montserrat">Koiney</span>.
               <span class="hint-text">All rights reserved. </span>
               <!--<span class="sm-block"><a href="/terms-of-use" class="m-l-10 m-r-10">Terms of use</a></span>-->
             </p>
@@ -103,65 +103,6 @@
     </div>
 </div>
 
-<%
-    if(session !== undefined && typeof session === 'object' && (session.admin || session.superAdmin || session.user)) {
-%>
-    <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.5.0/socket.io.min.js"></script>
-    <script>
-        $(function() {
-            var recieverId = '<%=(session.admin)?session.admin.id:(session.superAdmin?session.superAdmin.id:session.user.id)%>';
-            var recieverRole = '<%=(session.admin)?1:(session.superAdmin?0:2)%>';
-            var queryString = "reciever_id="+recieverId+"&reciever_role="+recieverRole;
-            var socket = io.connect(window.location.protocol+"//"+window.location.hostname+":4000/?"+queryString);
-
-            socket.on('notification', function(data) {
-                var $ele = $("#notification-center>.bubble");
-                (data.count=='0')?$ele.hide():$ele.show().html(data.count);
-            });
-        });
-    </script> -->
-    <script>
-    $(function() {
-        var recieverId = '<%=(session.admin)?session.admin.id:(session.superAdmin?0:session.user.id)%>';
-        var recieverRole = '<%=(session.admin)?1:(session.superAdmin?0:2)%>';
-        $.ajax({
-            url: '/get-count',
-            data: "reciever_id="+recieverId+"&reciever_role="+recieverRole,
-            cache: false,
-            type: 'POST',
-            success: function(response) {
-              if(response.status){
-                switch(response.type){
-                  case 'users' : 
-                    var $eleN = $("#user-notification-center>.bubble");
-                    var $eleM = $('#user-message-center>.bubble');
-                    (response.data.message.length==0)?$eleM.addClass('hide'):$eleM.removeClass('hide').html(response.data.message.length);
-                    var mIds = [];
-                    try{
-                      for ( var iM = 0; iM <  response.data.message.length; iM++ ) {
-                          if(mIds.indexOf(response.data.message[iM]['sender_id']) == -1){
-                            mIds.push(response.data.message[iM]['sender_id']);
-                          }
-                      }
-                       
-                    }catch(e){
-
-                    }
-                    $('#user-message-center').attr('msg-senders',mIds);
-                    (response.data.notCount=='0')?$eleN.hide():$eleN.show().html(response.data.notCount);
-                    break;
-                  case 'admins' :
-                  case 'super_admins': 
-                    var $eleN = $("#notification-center>.bubble");
-                    (response.data.notCount=='0')?$eleN.hide():$eleN.show().html(response.data.notCount);
-                    break;
-                }                
-              }              
-            }
-        })
-    });
-    </script>
-<% } %>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

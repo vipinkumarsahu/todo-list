@@ -6,28 +6,28 @@ var config = {
   development: {
     root: rootPath,
     app: {
-      name: 'testmongo'
+      name: 'Koiney-Admin'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/testmongo-development'
+    db: 'mongodb://localhost/koiney-development'
   },
 
   test: {
     root: rootPath,
     app: {
-      name: 'testmongo'
+      name: 'Koiney-Admin'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/testmongo-test'
+    db: 'mongodb://localhost/koiney-test'
   },
 
   production: {
     root: rootPath,
     app: {
-      name: 'testmongo'
+      name: 'Koiney-Admin'
     },
     port: process.env.PORT || 3000,
-    db: 'mongodb://localhost/testmongo-production'
+    db: 'mongodb://localhost/koiney-production'
   }
 };
 
