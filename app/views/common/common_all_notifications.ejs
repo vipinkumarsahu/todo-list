@@ -1,0 +1,54 @@
+<div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title m-t-10">
+                        All Notifications</div>
+                </div>
+                <div class="panel-body">
+                <div id="notification-data">
+                  
+                </div>
+      <div class="notification-footer text-center" id="load-more-not">
+    <a href="#!" id="load-more-notifications"<i class="fa fa-plus" aria-hidden="true">&nbsp;Load More Notifications</i></a> 
+                     </div>
+                 </div>
+             </div>
+          </div>
+        </div>  
+
+   
+<script type="text/javascript">
+var offset = 0;
+    $(document).ready(function(){
+      var self =$("#load-more-notifications");
+      showLoader(self);
+      getElemView({
+        'offset' : offset,
+      },'/all-notifications','#notification-data','<%= notificationPage; %>',function(argument) {
+        hideLoader(self);
+               if($('#no-notification-to-show').length > 0){
+                    $('#load-more-not').remove();    
+                }
+        });  
+    })
+    
+    //Load More Notifications
+    $(document).on('click','#load-more-notifications',function(){
+      var self =$(this);
+      showLoader(self);
+      offset += 20;
+      var data = {
+        'offset' : offset,
+      }; 
+      getElemView(data,'/all-notifications','#notification-data','<%= notificationPage; %>',function(argument) {
+             hideLoader(self);
+                if($('#no-notification-to-show').length > 0){
+                    $('#load-more-not').remove();    
+                }
+        });
+        
+    });
+</script>
+
+      

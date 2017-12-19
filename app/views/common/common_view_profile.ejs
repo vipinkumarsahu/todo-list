@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="col-md-12 m-t-15 p-l-0 p-r-0">
+        <form class="myValidation" role="form" id="user-view-profile" novalidate="novalidate" method="post" action="/user/user_view_profile" enctype="multipart/form-data">
+    <div class="col-md-6">
+        <div class="row bg-success">
+            <!-- <div class="col-md-1 m-t-10 m-l-5">
+                <label for="user-profile-img"><i class="fa fa-camera fa-2x pull-left text-white cursorPointer" aria-hidden="true" title="Edit Profile Picture"></i></label>
+            
+        </div> -->
+        <div class=" col-xs-6 col-sm-3 thumbnail-wrapper  bg-success text-white inline m-t-10 name-color">
+
+                <img class="img-circle img-big m-l-10" width="150" height="150" src="<%= user.image ? imgUrl+user.image : imgUrl+'profiles/avatar.jpg' %>" alt="" id="profile-img-preview">
+        </div>
+        <!-- END Search Result Item Thumbnail !-->
+        <div class="col-sm-5 col-sm-offset-1 name-color">
+            <h5><%=user.name%></h5>
+            <h5><%=user.email_id%></h5>
+            <h5><%=user.address%></h5>
+            <h5><%=user.phone_num%></h5>
+
+          </div>
+        </div> 
+        <div class="col-md-12 m-t-10 p-l-0 p-r-0">
+
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Account Setting</div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group form-group-default">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" required="" value="<%=user.email_id%>">
+                    </div>
+                    <div class="form-group form-group-default">
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control" value="">
+                    </div>
+                    <div class="form-group form-group-default">
+                        <label>Confirm Password</label>
+                        <input type="password" name="cpassword" class="form-control" value="">
+                    </div>
+                    <!-- <div>
+                        <button class="btn btn-success btn-cons m-b-10 m-t-10"><span class="bold">Update</span></button>
+                    </div> -->
+                </div>
+            </div>
+        </div>   
+    </div>
+    <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title m-t-10">
+                        General Info</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="form-group form-group-default">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" required="" value="<%=user.name%>">
+                            <input type="file" id="user-profile-img" class="form-control hide" name="image" data-target="#profile-img-preview" data-act="img-preview">
+                        </div>
+
+                       
+                    </div>
+                    <div class="form-group form-group-default">
+                        <label>Mailing Address</label>
+                        <input type="text" name="address" class="form-control" required="" value="<%=user.address%>">
+                    </div>
+
+                    <div class="form-group  form-group-default">
+                        <label>Phone</label>
+                        <input type="phone" name="phone" class="form-control" required="" value="<%=user.phone_num%>">
+                    </div>
+                    <div class="form-group  form-group-default">
+                        <label>State</label>
+                        <select class="full-width select2-hidden-accessible" data-init-plugin="select2" tabindex="-1" aria-hidden="true" name="state">
+                                <% for (var key in constGlobals.states) {%>
+                                      <option value="<%= constGlobals.states[key].name %>" <%= (typeof user != 'undefined') ? (!!user.state && user.state.indexOf(constGlobals.states[key].name) > -1 ) ? 'selected' : '' : '' %> >
+                                      <%= constGlobals.states[key].name %></option>
+                                <% } %>    
+                        </select>
+                    </div>
+                    <div class="form-group  form-group-default">
+                        <label>Country</label>
+                        <select class="full-width select2-hidden-accessible" data-init-plugin="select2" tabindex="-1" aria-hidden="true" name="country">
+                            <option value="India">India</option>
+                        </select>
+                    </div>
+                    <!-- <div>
+                        <button class="btn btn-success btn-cons m-b-10 m-t-10 "><span class="bold">Save</span></button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+ 
+

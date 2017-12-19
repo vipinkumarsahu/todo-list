@@ -1,0 +1,21 @@
+<div class="dropdown-menu notification-toggle" role="menu" aria-labelledby="user-notification-center">
+                    <!-- START Notification -->
+                    <div class="notification-panel">
+                      <!-- START Notification Body-->
+                      <div class="notification-body scrollable" id="user-notification-list">
+                        <!-- START Notification Item-->
+                        
+                      <!-- START Notification Footer-->
+                    </div>
+                    <!-- END Notification -->
+                  </div>
+                  <!-- END Notification Dropdown -->
+                </div>
+              </li>
+              <li class="p-r-15 inline">
+                <a href="#" title="Message" class="message-icon btn-link pg-mail font-large" data-toggle="quickview" data-toggle-element="#quickview" id="user-message-center" data-message="1" data-user-id="<%= session.user.id%>"><span class="bubble hide"></span></a>
+              </li>
+              <li class="p-r-15 inline">
+                <a href="#!" title="Invite More Members" data-post-id="" data-act="ajax-modal" data-title="Invite Members" class="fa fa-user-plus font-large" data-action-url="/inviteMember"></a>
+              </li>
+            </ul>
