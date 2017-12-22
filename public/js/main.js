@@ -1,118 +1,9 @@
  var imgUrl = "/img/";
 
-
-//Global function for Formetted input (Replica in App Locals)
-function formatInputData(input){
-    
-    var intNum = parseInt(input);
-    if(isNaN(intNum)){
-        return "N/A";
-    }
-    if(Math.abs(intNum) >= 1000){
-        return intNum;
-    }else if(Math.abs(intNum) >=100 && Math.abs(intNum) < 10000){
-        return parseFloat(input).toFixed(1);
-    }else{
-        return parseFloat(input).toFixed(2);
-    }
-}
-
-//(Replica in App Locals)
-function getUnit(Unit1,Unit2,curr){
-   
-    var U1 = Unit1 || "";
-    var U2 = Unit2 || "";
-    var Unit = U1 + " " + U2;
-    Unit = Unit.replace(/unit/ig,'');
-
-    Unit = Unit.replace(/currency/ig,curr);
-    Unit = Unit.replace(/percentage/ig,"%");
-
-    return Unit.trim();
-}
-
-//Update Data as per Financial Year (Replica in App Locals)
-function calulateDataAccordingToYear(lineData, cmp , year,curr) {
-    
-    if(curr == undefined || curr == ''){
-        curr = "INR";
-    }
-    if(year == undefined){
-        year = $("#financialYearDD").val();
-    }
-    var data = {};
-    try {
-        data.MarketCap = parseFloat(lineData[24].cells[year] * cmp);
-        data.EPS = lineData[100030].cells[year];
-        if($('#fYear').length > 0){
-            var $yr = $('#fYear');
-            var y3 = lineData[100030].cells[$yr.find("option:eq(3)").html()];
-            var y0 = lineData[100030].cells[$yr.find("option:eq(0)").html()];
-            y3 = parseFloat(y3);
-            y0 = parseFloat(y0);
-            var res = (Math.pow((y3/y0),1/3) - 1)*100;  
-        }else{
-            var res;
-        }
-        data.YearsEPS = parseFloat(res) || '-';
-        data.Evebitda = parseFloat(((data.MarketCap + parseFloat(lineData[105020].cells[year]) + parseFloat(lineData[105015].cells[year]) - parseFloat(lineData[105001].cells[year])) / parseFloat(lineData[100021].cells[year])).toFixed(2));
-        data.PE = parseFloat((cmp / parseFloat(data.EPS)).toFixed(2));
-        data.PB = parseFloat((cmp / parseFloat(lineData[100040].cells[year])));
-        data.DY = parseFloat((parseFloat(lineData[100042].cells[year]))/cmp);
-        data.ROE = lineData[100041].cells[year];
-        /*data.Units = {
-            MarketCap : getUnit(lineData[24].Unit1,lineData[24].Unit2,curr),
-            EPS : getUnit(lineData[100030].Unit1,lineData[100030].Unit2,curr),
-            Evebitda : getUnit(lineData[105020].Unit1,lineData[105020].Unit2,curr),
-            ROE : getUnit(lineData[100041].Unit1,lineData[100041].Unit2,curr),
-            PB : getUnit(lineData[100040].Unit1,lineData[100040].Unit2,curr),
-            PE : getUnit(lineData[100030].Unit1,lineData[100030].Unit2,curr),
-            DY : getUnit(lineData[100042].Unit1,lineData[100042].Unit2,curr),
-        };*/
-    } catch (e) {
-        console.log("Error in Valuation Table calculation :", e);
-    }
-    return data;
-}
-
-function updateTableData(year){
-    var tbRow = $(".company_row");
-    tbRow.each(function(el){
-        var cmp =  parseFloat($(this).find(".cmp").data('cmp'));
-        var lineData = JSON.parse($(this).find(".lineData").html());
-        var currency = $(this).attr('data-currency');
-        if(lineData == null || lineData == undefined){
-           return ;
-        }
-
-        
-        /*if(el == 0){
-
-            //update market cap in header
-            var cmpUnit  = tbRow.closest("table").find("#cmpUnit").html();
-           tbRow.closest("table").find("#mrktCapUnit").html(cmpUnit + " " +getUnit(lineData[24].Unit1,lineData[24].Unit2,currency));
-        }*/
-        var data = calulateDataAccordingToYear(lineData,cmp,year,currency);
-        $(this).find(".MarketCap").html(formatInputData(data.MarketCap));
-        $(this).find(".EPS").html(formatInputData(data.EPS));
-        $(this).find(".Evebitda").html(formatInputData(data.Evebitda));
-        $(this).find(".PE").html(formatInputData(data.PE));
-        $(this).find(".ROE").html(formatInputData(parseFloat(data.ROE)*100));
-        $(this).find(".PB").html(formatInputData(parseFloat(data.PB)));
-        $(this).find(".DY").html(formatInputData(parseFloat(data.DY)*100));
-        $(this).find(".YearsEPS").html(formatInputData(parseFloat(data.YearsEPS)));
-    })
-};
-
  (function($) {
 
     'use strict';
-
     // modal calculation
-
-
-
-
     $(document).ready(function() {
 
         // Validation method for budget, profit, revenue fields
@@ -233,123 +124,71 @@ function updateTableData(year){
     return Math.floor(seconds) + " seconds";
  };
 
- function CreatLineGraphPost(lineIDDataAll, lineIds, containerID, isEditable, labelEnabled,currency) {
-    var self = this;
-    var seriesData = [];
-    var lineIds = lineIds.split("*");
-    for (var l = 0; l < lineIds.length; l++) {
-        var lineIDData = lineIDDataAll[lineIds[l]];
-        var cells = lineIDData.cells;
-        var xAxisArr = [];
-        var yAxisArr = [];
-        var totalDot = 0;
-        var title = lineIDData.Title;
-        var formatTooltip = '{value}';
-        var unit1 = lineIDData.Unit1;
-        var unit2 = lineIDData.Unit2;
-        var unit = "";
-        var isPer = false;
-        var units = "";
-        if(currency){
-            units = getUnit(unit1 ,unit2,currency);
-        }
-        if(units.indexOf("%") > -1){
-            formatTooltip = '{value}%';
-        }
-       
-
-
-        yAxisObj = [];
-        for (var year in cells) {
-            if (cells.hasOwnProperty(year) && cells[year] !== "") {
-                xAxisArr.push(year);
-                if (cells[year].value == "") {
-                    cells[year].value = 0;
-                }
-                var y = parseFloat(parseFloat(cells[year].value).toFixed(2));
-
-                if(units.indexOf("%") > -1){
-                    y = y * 100;
-
-                }
-                yAxisArr.push(y);
-
-            }
-        }
-        // to be removed in next phase-> items must be ingnored during year loop
-        var addedCount = 0;
-        for (var indexYr = yAxisArr.length - 1; indexYr >= 0; indexYr--) {
-            if(addedCount >= 10){
-                yAxisArr.splice(indexYr, 1);
-                xAxisArr.splice(indexYr, 1);
-            }
-            addedCount++;
-        }
-        yAxisObj.push({
-            title: {
-                text: units.replace(/%/ig,'percentage')
-            }
-
-        });
-        seriesData.push({
-            name: lineIDData.Title,
-            type: 'line',
-            data: yAxisArr,
-
-            zoneAxis: 'x'
-        });
-    }
-    //line chart
-    var options = {
-
-        chart: {
-            renderTo: containerID,
-            animation: true
-        },
-
-        title: {
-            text: ''
-        },
-
-        yAxis: yAxisObj,
-
-        xAxis: {
-            categories: xAxisArr
-        },
-
-        tooltip: {
-            yDecimals: 2,
-            formatter: function() {
-                if(units.indexOf("%") > -1){
-                    return this.x + '</b> : <b>' + parseFloat(this.y).toFixed(2) + '%';
-                }
-                else{
-                    return this.x + '</b> : <b>' + parseFloat(this.y).toFixed(2);
-                }
-                    
-            }
-        },
-
-
-        series: seriesData
-
-    };
-    if (isEditable && isEditable == true) {
-        editableChart = new Highcharts.Chart(options);
-    } else {
-
-        lineChart = new Highcharts.Chart(options);
-    }
-
- };
-
- //custom dialog
- $(document).ready(function(argument) {
+//custom dialog
+$(document).ready(function (argument) {
     $.ajaxSetup({
         cache: false
     });
+
+    //Delete Modal
+    $('body').on('click', '[data-act=delete-modal]', function () {
+        var isLargeModal = $(this).attr('data-modal-lg'),
+            actUrl = $(this).attr('data-url'),
+            removeParent = $(this).attr('data-remove-parent'),
+            parentElm = $(this).attr('data-parent-elm'),
+            methodType = $(this).attr('data-method'),
+            selfElm = $(this),
+            data = {},
+            reloadOnSuccess = $(this).attr('data-reload-on-success');
+
+        if (methodType == 'POST') {
+            $(this).each(function () {
+                $.each(this.attributes, function () {
+                    if (this.specified && this.name.match("^data-post-")) {
+                        var dataName = this.name.replace("data-post-", "");
+                        data[dataName] = this.value;
+                    }
+                });
+            });
+        }
+        var delHtml = '<div class="modal-body text-center">' +
+            '<button id="del-btn-ajax-modal" class="btn btn-success m-r-20" type="button"><i class="fa fa-check"></i>Yes</button>' +
+            '<button class="btn btn-danger m-r-20" type="button" data-dismiss="modal"><i class="fa fa-times"></i> No</button>'
+        '</div>';
+        if (isLargeModal === "1") {
+            $("#ajaxModal").find(".modal-dialog").addClass("modal-lg");
+        }
+        $("#ajaxModalTitle").html('Are you Sure ?');
+        if (delHtml) {
+            $("#ajaxModalContent").html(delHtml);
+        } else {
+            $("#ajaxModalContent").html('');
+        }
+        $('#del-btn-ajax-modal').unbind('click').click(function () {
+            $.ajax({
+                url: actUrl,
+                cache: false,
+                type: methodType || 'GET',
+                data: data,
+                success: function (response) {
+                    if (removeParent == 'true') {
+                        $(selfElm).closest(parentElm).remove();
+                    }
+                    if (reloadOnSuccess) {
+                        location.reload();
+                    }
+                    $("#ajaxModal").modal('hide');
+                },
+                error: function (e) {
+                    $("#ajaxModal").modal('hide');
+                }
+            });
+        });
+        $("#ajaxModal").modal('show');
+    });
+
     //Message Modal
-    $('body').on('click', '[data-act=message-modal]', function() {
+    $('body').on('click', '[data-act=message-modal]', function () {
         var isLargeModal = $(this).attr('data-modal-lg'),
             title = $(this).attr('data-title'),
             content = $(this).attr('data-content');
@@ -369,10 +208,10 @@ function updateTableData(year){
         $("#ajaxModal").modal('show');
     });
 
-    $('body').on('click', '[data-act=ajax-modal]', function() {
+    $('body').on('click', '[data-act=ajax-modal]', function () {
         var data = {
-                ajaxModal: 1
-            },
+            ajaxModal: 1
+        },
             url = $(this).attr('data-action-url'),
             isLargeModal = $(this).attr('data-modal-lg'),
             callback = $(this).attr("data-callback"),
@@ -393,8 +232,8 @@ function updateTableData(year){
         $("#ajaxModalContent").find(".original-modal-body").removeClass("original-modal-body").addClass("modal-body");
         $("#ajaxModal").modal('show');
 
-        $(this).each(function() {
-            $.each(this.attributes, function() {
+        $(this).each(function () {
+            $.each(this.attributes, function () {
                 if (this.specified && this.name.match("^data-post-")) {
                     var dataName = this.name.replace("data-post-", "");
                     data[dataName] = this.value;
@@ -406,7 +245,7 @@ function updateTableData(year){
             data: data,
             cache: false,
             type: method || 'POST',
-            success: function(response) {
+            success: function (response) {
                 $("#ajaxModal").find(".modal-dialog").removeClass("mini-modal");
                 if (isLargeModal === "1") {
                     $("#ajaxModal").find(".modal-dialog").addClass("modal-lg");
@@ -439,12 +278,12 @@ function updateTableData(year){
                 }
             },
             statusCode: {
-                404: function() {
+                404: function () {
                     $("#ajaxModalContent").find('.modal-body').html("");
                     //  appAlert.error("404: Page not found.", {container: '.modal-body', animate: false});
                 }
             },
-            error: function() {
+            error: function () {
                 $("#ajaxModalContent").find('.modal-body').html("");
                 //appAlert.error("500: Internal Server Error.", {container: '.modal-body', animate: false});
             }
@@ -453,15 +292,17 @@ function updateTableData(year){
     });
 
     //abort ajax request on modal close.
-    $('#ajaxModal').on('hidden.bs.modal', function(e) {
-        ajaxModalXhr.abort();
+    $('#ajaxModal').on('hidden.bs.modal', function (e) {
+        if (typeof ajaxModalXhr != 'undefined') {
+            ajaxModalXhr.abort();
+        }
         $("#ajaxModal").find(".modal-dialog").removeClass("modal-lg");
         $("#ajaxModal").find(".modal-dialog").addClass("mini-modal");
 
         $("#ajaxModalContent").html("");
     });
     //common ajax request
-    $('body').on('click', '[data-act=ajax-request]', function() {
+    $('body').on('click', '[data-act=ajax-request]', function () {
         var data = {},
             $selector = $(this),
             url = $selector.attr('data-action-url'),
@@ -477,7 +318,6 @@ function updateTableData(year){
         } else if ($selector.attr('data-closest-target')) {
             $target = $selector.closest($selector.attr('data-closest-target'));
         }
-
         if (!url) {
             console.log('Ajax Request: Set data-action-url!');
             return false;
@@ -487,8 +327,8 @@ function updateTableData(year){
             $(removeOnClick).remove();
         }
 
-        $selector.each(function() {
-            $.each(this.attributes, function() {
+        $selector.each(function () {
+            $.each(this.attributes, function () {
                 if (this.specified && this.name.match("^data-post-")) {
                     var dataName = this.name.replace("data-post-", "");
                     data[dataName] = this.value;
@@ -506,7 +346,7 @@ function updateTableData(year){
             data: data,
             cache: false,
             type: 'POST',
-            success: function(response) {
+            success: function (response) {
                 $selector.removeClass("inline-loader");
                 if (reloadOnSuccess) {
                     location.reload();
@@ -520,17 +360,17 @@ function updateTableData(year){
                 }
                 if (callback) {
                     var f = eval(callback);
-                    f(response,$selector);
+                    f(response, $selector);
                 }
                 //eval(callback(response);
             },
             statusCode: {
-                404: function() {
+                404: function () {
                     //appLoader.hide();
                     //appAlert.error("404: Page not found.");
                 }
             },
-            error: function() {
+            error: function () {
                 //appLoader.hide();
                 //appAlert.error("500: Internal Server Error.");
             }
@@ -538,39 +378,39 @@ function updateTableData(year){
 
     });
     //custom app form controller
-    (function($) {
-        $.fn.appForm = function(options) {
+    (function ($) {
+        $.fn.appForm = function (options) {
             var defaults = {
                 ajaxSubmit: true,
                 isModal: true,
                 dataType: "json",
-                onModalClose: function() {},
-                onSuccess: function() {},
-                onError: function() {
+                onModalClose: function () { },
+                onSuccess: function () { },
+                onError: function () {
                     return true;
                 },
-                onSubmit: function() {},
-                onAjaxSuccess: function() {},
-                beforeAjaxSubmit: function(data, self, options) {}
+                onSubmit: function () { },
+                onAjaxSuccess: function () { },
+                beforeAjaxSubmit: function (data, self, options) { }
             };
 
             var settings = $.extend({}, defaults, options);
-            this.each(function() {
+            this.each(function () {
                 if (settings.ajaxSubmit) {
-                    validateForm($(this), function(form) {
-                        if(settings.onSubmit($(form)) == false){
-                            return false ; 
+                    validateForm($(this), function (form) {
+                        if (settings.onSubmit($(form)) == false) {
+                            return false;
                         }
                         if (settings.isModal) {
                             maskModal($("#ajaxModalContent").find(".modal-body"));
                         }
                         $(form).ajaxSubmit({
                             dataType: settings.dataType,
-                            beforeSubmit: function(data, self, options) {
+                            beforeSubmit: function (data, self, options) {
                                 settings.beforeAjaxSubmit(data, self, options);
                             },
-                            success: function(result) {
-                                settings.onAjaxSuccess(result,$(form));
+                            success: function (result) {
+                                settings.onAjaxSuccess(result, $(form));
 
                                 if (result.success) {
                                     settings.onSuccess(result);
@@ -604,7 +444,7 @@ function updateTableData(year){
             function validateForm(form, customSubmit) {
                 //add custom method
                 $.validator.addMethod("greaterThanOrEqual",
-                    function(value, element, params) {
+                    function (value, element, params) {
                         var paramsVal = params;
                         if (params && (params.indexOf("#") === 0 || params.indexOf(".") === 0)) {
                             paramsVal = $(params).val();
@@ -616,23 +456,23 @@ function updateTableData(year){
                             (Number(value) >= Number(paramsVal));
                     }, 'Must be greater than {0}.');
                 $(form).validate({
-                    submitHandler: function(form) {
+                    submitHandler: function (form) {
                         if (customSubmit) {
                             customSubmit(form);
                         } else {
                             return true;
                         }
                     },
-                    highlight: function(element) {
+                    highlight: function (element) {
                         $(element).closest('.form-group').addClass('has-error');
                     },
-                    unhighlight: function(element) {
+                    unhighlight: function (element) {
                         $(element).closest('.form-group').removeClass('has-error');
                     },
                     errorElement: 'span',
                     errorClass: 'help-block',
                     ignore: ":hidden:not(.validate-hidden)",
-                    errorPlacement: function(error, element) {
+                    errorPlacement: function (error, element) {
                         if (element.parent('.input-group').length) {
                             error.insertAfter(element.parent());
                         } else {
@@ -641,7 +481,7 @@ function updateTableData(year){
                     }
                 });
                 //handeling the hidden field validation like select2
-                $(".validate-hidden").click(function() {
+                $(".validate-hidden").click(function () {
                     $(this).closest('.form-group').removeClass('has-error').find(".help-block").hide();
                 });
             }
@@ -686,11 +526,11 @@ function updateTableData(year){
             function closeAjaxModal(success) {
                 if (success) {
                     $(".modal-mask").html("<div class='circle-done'><i class='fa fa-check'></i></div>");
-                    setTimeout(function() {
+                    setTimeout(function () {
                         $(".modal-mask").find('.circle-done').addClass('ok');
                     }, 30);
                 }
-                setTimeout(function() {
+                setTimeout(function () {
                     $(".modal-mask").remove();
                     $("#ajaxModal").modal('toggle');
                     settings.onModalClose();
@@ -703,13 +543,13 @@ function updateTableData(year){
     /*
         Show Temp Image |Preview after select file|
     */
-    $('body').on('change', '[data-act=img-preview]', function() {
+    $('body').on('change', '[data-act=img-preview]', function () {
         var input = this;
         var previewElem = $(this).data('target');
         if (input.files && input.files[0]) {
             var reader = new FileReader();
 
-            reader.onload = function(e) {
+            reader.onload = function (e) {
                 $(previewElem)
                     .attr('src', e.target.result);
 
@@ -720,69 +560,73 @@ function updateTableData(year){
     });
 
     //Show full bubble post
-    $(document).on('click','.click-to-show',function(){
+    $(document).on('click', '.click-to-show', function () {
         $chartElm = $(this).closest('.timeline-content');
-        
+
         $(this).closest('.timeline-content').find('.show-on-click').toggle(400);
         var id = $(this).attr('data-chart');
         var currency = $(this).attr('data-currency');
-        var stat_json = JSON.parse($('#stat-json-'+id).html());
-        setTimeout(function() {
-            CreatLineGraphPost(stat_json,'100031',"rev-"+id,false,false,currency);
-            CreatLineGraphPost(stat_json,'100032',"margin-"+id,false,false,currency);
-            CreatLineGraphPost(stat_json,'100030',"eps-"+id,false,false,currency);
+        var stat_json = JSON.parse($('#stat-json-' + id).html());
+        setTimeout(function () {
+            CreatLineGraphPost(stat_json, '100031', "rev-" + id, false, false, currency);
+            CreatLineGraphPost(stat_json, '100032', "margin-" + id, false, false, currency);
+            CreatLineGraphPost(stat_json, '100030', "eps-" + id, false, false, currency);
         }, 500)
 
     });
 })
 
- /*
- |
- ||||Get Elements Ajax Function||||
- |
- |   data => to be passed,
- |   actUrl => url to which req is sent for data
- |   divElem => element that is to be apended,
- |   page => page name respect to ajax folder in views to be rendered with data
- |
- */
- var getElemView = function(postData, actUrl, divElem, page,cb,type) {
+/*
+|
+||||Get Elements Ajax Function||||
+|
+|   data => to be passed,
+|   actUrl => url to which req is sent for data
+|   divElem => element that is to be apended,
+|   page => page name respect to ajax folder in views to be rendered with data
+|
+*/
+var getElemView = function (postData, actUrl, divElem, page, cb, type, isHtml) {
     var $elem = $(divElem);
-
     $.ajax({
         url: actUrl,
         data: postData,
         type: 'POST',
-        success: function(data) {
-      
-            if (data.status) {
-                var callback = new EJS({
-                    url: page
-                }).render({
-                    data: data.data,
-                    res: data,
-                    imgUrl: imgUrl
-                });
-                if(type == undefined){
-                    $elem.append(callback);
-                }else if(type == 'html'){
-                    $elem.html(callback);
+        success: function (data) {
+            if (isHtml == true) {
+                if (type == undefined) {
+                    $elem.append(data);
+                } else if (type == 'html') {
+                    $elem.html(data);
                 }
-                if (cb) {
-                    cb(data);
+            } else {
+                if (data.status) {
+                    var callback = new EJS({
+                        url: page
+                    }).render({
+                        data: data.data,
+                        res: data,
+                        imgUrl: imgUrl
+                    });
+                    if (type == undefined) {
+                        $elem.append(callback);
+                    } else if (type == 'html') {
+                        $elem.html(callback);
+                    }
                 }
             }
-
+            if (cb) {
+                cb(data);
+            }
         },
-        error: function(err) {
-           
+        error: function (err) {
             if (cb) {
                 cb(undefined);
             }
             console.error(err);
         }
     });
- }
+}
 
  $(document).ready(function() {
     $('#notification-center').on('click', function() {
@@ -809,182 +653,6 @@ $(document).on("click",".clickable-element",function(event) {
         window.document.location = $(this).data("href");
 
 });
- function updateFollowerCount(response) {
-    var count = parseInt($('#follow-count').text());
-    if (response == 'Follow') {
-        $('#follow-count').text(count - 1);
-    } else if (response == 'Unfollow') {
-        $('#follow-count').text(count + 1);
-    }
- }
-
-function updateCommunityMemberCount(response){
-    var count = parseInt($('#count-community-member').text());
-    $('#count-community-member').text(count + response.count);
-}
-
-function initComment(container){
-
-    var $container = $(container);
-    var itemid = $container.attr('data-id');
-    var $countDiv = $($container.attr('data-countdiv'));
-    var profileUrl = $container.attr('data-profileUrl');
-    $container.comments({
-        sendText: 'Post',
-        profilePictureURL: profileUrl,
-        timeFormatter: function(time) {
-            return moment(time).fromNow();
-        },
-        roundProfilePictures: true,
-        enableDeletingCommentWithReplies: false,
-        postCommentOnEnter: true,
-        postComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'post',
-                url: '/user/post-comment/'+itemid,
-                data: commentJSON,
-                success: function(comment) {
-                    try{
-                        $countDiv.text(parseInt($countDiv.text())+1);
-                        success(comment);
-                    }catch(e){
-                        console.log(e);
-                    }
-                },
-                error: error
-            });
-        },
-        putComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'post',
-                url: '/user/edit-comment/' + itemid + '/' + commentJSON.id,
-                data: commentJSON,
-                success: function(comment) {
-                    try{
-                        success(comment);
-                    }catch(e){
-                        console.log(e);
-                    }
-                },
-                error: error
-            });
-        },
-        getComments: function(success, error) {
-            $.ajax({
-                type: 'get',
-                url: '/user/get-comment/' + itemid, 
-                success: function(commentsArray) {
-                    try{
-                        success(commentsArray);
-                    }catch(e){
-                        console.log(e);
-                    }
-                },
-                error: error
-            });
-        },
-        deleteComment: function(commentJSON, success, error) {
-            $.ajax({
-                type: 'delete',
-                url: '/user/delete-comment/'+ itemid + '/' + commentJSON.id,
-                success: success,
-                error: error
-            });
-            try{
-                $countDiv.text(parseInt($countDiv.text())-1);
-            }catch(e){
-
-            }
-        },
-        upvoteComment: function(commentJSON, success, error) {
-            var upvotesURL = '/user/like-comment/' + commentJSON.id;
-
-            if(commentJSON.userHasUpvoted) {
-                $.ajax({
-                    type: 'post',
-                    url: upvotesURL,
-                    data: {
-                        comment: commentJSON.id
-                    },
-                    success: function() {
-                        success(commentJSON)
-                    },
-                    error: error
-                });
-            } else {
-                $.ajax({
-                    type: 'post',
-                    url: upvotesURL,
-                    data: {
-                        comment: commentJSON.id
-                    },
-                    success: function() {
-                        success(commentJSON)
-                    },
-                    error: error
-                });
-            }
-        }
-    });
-}
-
-//Update Conversation View
-var getConversation = function(view, animation,bthis){
-    var $elm = $(bthis);
-    $('#friend-name').html($elm.attr('data-fname'));
-    $('#my-conversation').html('');
-    $('#my-conversation').addClass('circle-loader');
-    $('#send-msg-btn').attr('data-friendid',$elm.attr('data-friendid'));
-    // check if user is friend
-    if($elm.attr('data-fstatus') == '0'){
-        $('#send-msg-btn').attr('disabled','disabled');
-        return false;
-    }else{
-        $('#send-msg-btn').removeAttr('disabled');
-    }
-    var data = {
-        friend_id: $elm.attr('data-friendid'),
-        user_id : $elm.attr('data-userid'),
-        fimage : $elm.attr('data-fimage'),
-        fname : $elm.attr('data-fname')
-    };
-    getElemView(data,'/user/get-message','#my-conversation','/chat_conversation',function(){
-        $('#my-conversation').scrollTop($('#my-conversation')[0].scrollHeight);
-        $('#my-conversation').removeClass('circle-loader');
-    });
-}
-
-//Send Message
-var sendConversation = function(obj){
-    $.ajax({
-        url: '/user/send-message',
-        data: {
-            'message': obj.message,
-            'id': obj.f_id
-        },
-        type: 'POST',
-        success: function(data) {
-            
-        },
-        error: function(err) {
-            console.error(err);
-        }
-    });
-}
-
-//Update Chat status
-var updateChatStatus = function(param,bthis){
-    bthis.closest('p').find('a.friend-item').attr('data-fstatus',1);
-    bthis.remove();
-}
-
-//Save VFM on ctr -s 
-document.addEventListener("keydown", function(e) {
-  if (e.keyCode == 83 && (navigator.platform.match("Mac") ? e.metaKey : e.ctrlKey)) {
-    e.preventDefault();
-    if($('.save-vfm'))$('.save-vfm').click();    
-  }
-}, false);
 
 // resize handler
 /*$(document).ready(resizeBfmHeader);

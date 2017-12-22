@@ -1,4 +1,4 @@
-// Example model
+// Admin model
 
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;

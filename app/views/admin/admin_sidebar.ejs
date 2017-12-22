@@ -14,38 +14,35 @@
     <!-- BEGIN SIDEBAR MENU ITEMS-->
     <ul class="menu-items">
       <li class="m-t-30 ">
-        <a href="/admin/dashboard">
-          <span class="title">Dashboard</span>
-        </a>
-        <span class="icon-thumbnail <% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'dashboard'){%>bg-success<% }%>"><i class="pg-home"></i></span>
-      </li>
-      <li class="m-t-30 ">
-        <a href="/admin/dashboard">
+        <a href="/dashboard">
           <span class="title">Dashboard</span>
         </a>
         <span class="icon-thumbnail <% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'dashboard'){%>bg-success<% }%>"><i class="pg-home"></i></span>
       </li>
       <li class="">
-        <a href="/admin/add-company" class="detailed">
-          <span class="title">New Stock</span>
-          <span class="details">Submit the form</span>
+        <a href="/list-users">
+          <span class="title">Users</span>
         </a>
-         <span class="icon-thumbnail <% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'addStock'){%>bg-success<% }%>"><i class="pg-layouts"></i></span>
+        <span class="<% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'users'){%>bg-success<% }%> icon-thumbnail">
+          <i class="fa fa-user"></i>
+        </span>
       </li>
       <li class="">
-        <a href="/admin/companies">
-          <span class="title">Manage Company</span>
+        <a href="/list-admins">
+          <span class="title">Admins</span>
         </a>
-        <span class="icon-thumbnail <% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'manageCompany'){%>bg-success<% }%>"><i class="pg-bag"></i></span>
+        <span class="<% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'admins'){%>bg-success<% }%> icon-thumbnail">
+          <i class="fa fa-user"></i>
+        </span>
       </li>
-      
       <li class="">
-        <a href="/admin/manage-bfm">
-          <span class="title">Manage BFM</span>
+        <a href="/roles">
+          <span class="title">Roles</span>
         </a>
-        <span class="icon-thumbnail <% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'manageBFM'){%>bg-success<% }%>"><i class="pg-charts"></i></span>
+        <span class="<% if(typeof activeSidebar == 'string' && activeSidebar && activeSidebar == 'roles'){%>bg-success<% }%> icon-thumbnail">
+          <i class="fa fa-list-alt"></i>
+        </span>
       </li>
-      
     </ul>
     <div class="clearfix"></div>
   </div>

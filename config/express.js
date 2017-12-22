@@ -88,6 +88,7 @@ module.exports = function(app, config) {
   //Set Global Config Variables inside views
   app.locals.imgUrl = '/img/';
   app.locals.constGlobals = globalConfigs;
+  app.locals.dateFormat = globalFunctions.dateFormat;
   app.locals.addScripts = function (all) {
     app.locals.scripts = [];
     if (all != undefined) {
@@ -125,9 +126,10 @@ module.exports = function(app, config) {
   controllers.forEach(function (controller) {
     require(controller)(app);
   });
-  app.use(function (req, res) {
+  
+  /* app.use(function (req, res) {
     res.redirect("/login");
-  });
+  }); */
 
   app.use(function (req, res, next) {
     var err = new Error('Not Found');
