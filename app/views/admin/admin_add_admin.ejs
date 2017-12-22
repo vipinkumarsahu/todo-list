@@ -1,0 +1,88 @@
+<form class="myValidation" role="form" method="post" action="/add-admin" id="admin-add-admin-form" novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        General Info</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
+                                <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
+                                    <%= typeof admin != 'undefined' && (!!admin.name)? admin.name.trim() : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
+                        <label>Mailing Address</label>
+                        <input type="text" name="address" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
+                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
+                            <%= typeof admin != 'undefined' && (!!admin.address)? admin.address.trim() : '' %>"
+                                <% } %>>
+                    </div>
+
+                    <div class="form-group  form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
+                        <label>Phone</label>
+                        <input type="text" name="phone" class="form-control phone" required="" <% if(typeof viewAdmin==='string' && viewAdmin) {
+                            %>
+                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
+                            <%= typeof admin != 'undefined' && (!!admin.phone)? admin.phone.trim() : '' %>"
+                                <% } %>>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Account Setting</div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%> ">
+                        <label>Email</label>
+                        <input type="email" name="email" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
+                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
+                            <%= typeof admin != 'undefined' && (!!admin.email_id)? admin.email_id.trim() : '' %>"
+                                <% } %>>
+                    </div>
+                    <% if((typeof viewAdmin != 'string') || (typeof viewAdmin == 'string' && viewAdmin == 'edit')) { %>
+                        <div class="form-group form-group-default <% if(typeof viewAdmin != 'string') { %>required<%}%>">
+                            <label>Password</label>
+                            <input type="password" name="password" class="form-control" value="" <% if(typeof viewAdmin !='string' ) {%> required=""
+                            <% } %> >
+                        </div>
+                        <div class="form-group form-group-default <% if(typeof viewAdmin != 'string') { %>required<%}%>">
+                            <label>Confirm Password</label>
+                            <input type="password" name="cpassword" class="form-control" value="" <% if(typeof viewAdmin !='string' ) {%> required=""
+                            <% } %> >
+                        </div>
+                        <div>
+                            <button class="btn btn-success btn-cons ">
+                                <span class="bold">Save</span>
+                            </button>
+                            <a href="/list-admins" class="btn btn-success btn-cons">
+                                <span class="bold">Close</span>
+                            </a>
+                        </div>
+                        <% } if(typeof viewAdmin == 'string' && viewAdmin == 'edit') { %>
+                            <input type="hidden" name="editType" value="true">
+                            <input type="hidden" name="adminId" value="<%= admin.id %>">
+                            <% } if(typeof viewAdmin == 'string' && viewAdmin == 'view') { %>
+                                <a href="/list-admins" class="btn btn-success btn-cons">
+                                    <span class="bold">Close</span>
+                                </a>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

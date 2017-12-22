@@ -1,4 +1,4 @@
-// Role.js
+// Roles.js
 
 var express = require('express'),
     router = express.Router(),
@@ -84,15 +84,15 @@ router.post('/add-role', function (req, res, next) {
         req.flash('errors', err);
         res.redirect("/add-role");
     } else {
-        var newRole = Role({
+        var newRole = {
             name: req.body.name,
             role_permissions: JSON.parse(req.body.permissions) || {},
             status: 1
-        });
+        };
 
         //check if req is edit type or add type
         if (req.body.editType != undefined && req.body.editType == "true") {
-            Role.findById(req.body.roleId, function (err, role) {
+            Role.findOneAndUpdate(req.body.roleId, newRole, function (err, role) {
                 if (err) {
                     var err = {
                         status: 500,
@@ -100,7 +100,6 @@ router.post('/add-role', function (req, res, next) {
                     }
                     globalFunctions.errorPage(res, err);
                 } else {
-                    newRole.isNew = false;
                     var log_data = {
                         item_id: req.body.roleId,
                         action: 'edit role',
@@ -109,20 +108,11 @@ router.post('/add-role', function (req, res, next) {
                         u_type: 0
                     };
                     globalFunctions.admin_logs(log_data);
-                    newRole.save(function (err) {
-                        if (err) {
-                            var err = {
-                                status: 500,
-                                error: err
-                            }
-                            globalFunctions.errorPage(res, err);
-                        }else{
-                            res.redirect('/roles');
-                        }                        
-                    });
+                    res.redirect('/roles');
                 }
             });
         } else {
+            newRole = new Role(newRole);
             newRole.save(function(err) {
                 if(err){
                     var err = {
@@ -141,9 +131,7 @@ router.post('/add-role', function (req, res, next) {
 
 //Delete a role
 router.post('/delete', function (req, res, next) {
-    var id = req.body.id;
-    var where = "id =" + id;
-    Role.findOne({ _id: req.body.id }, function (err, role) {
+    Role.findByIdAndRemove({ _id: req.body.id }, function (err, role) {
         if (err) {
             var err = {
                 status: 500,
@@ -151,7 +139,6 @@ router.post('/delete', function (req, res, next) {
             }
             globalFunctions.errorPage(res, err);
         } else {
-            role.remove();
             var log_data = {
                 item_id: req.body.id,
                 action: 'delete role',

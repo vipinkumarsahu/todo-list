@@ -12,9 +12,7 @@
                             <div class="form-group form-group-default <% if(typeof viewRole != 'string' || viewRole == 'edit') { %>required<%}%>">
                                 <label>Name</label>
                                 <input type="text" name="name" class="form-control" required="" <% if(typeof viewRole==='string' && viewRole) { %>
-                                <%= (viewRole == 'view') ? 'readonly' : '' %> value="
-                                    <%= (!!role.name)? role.name.trim() : '' %>"
-                                        <% } %> >
+                                <%= (viewRole == 'view') ? 'readonly' : '' %> value="<%= (!!role.name) ? role.name.trim() : '' %>"<% } %> >
                                             <textarea class="hide" name="permissions" id="roles-permissions"><%- typeof role == 'object' && role.role_permissions ? JSON.stringify(role.role_permissions) : JSON.stringify({}) %></textarea>
                             </div>
                         </div>
@@ -101,7 +99,6 @@
     }
 
     $(document).ready(function () {
-        debugger
         var permissionsSaved = JSON.parse($('#roles-permissions').html().trim());
         buildRolesTable(obj, permissionsSaved);
     });
