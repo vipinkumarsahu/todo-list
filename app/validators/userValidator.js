@@ -42,10 +42,10 @@ var validators = {
         },
         'password': {
             notEmpty: true,
-            matches: {
+            /* matches: {
                 options: [{ min: 4, max: 20 }], // pass options to the validator with the options property as an array
                 options: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/i] // matches also accepts the full expression in the first parameter
-            },
+            }, */
             errorMessage: 'Invalid Password'
         }
     },

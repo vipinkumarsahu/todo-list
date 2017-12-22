@@ -12,7 +12,7 @@ module.exports = function (app) {
 
 //list all admins
 router.get('/list-admins', function (req, res, next) {
-    Admin.find({ createdAt: -1 }, function (err, admins) {
+    Admin.find({},null,{ createdAt: -1 }, function (err, admins) {
         if (err) {
             var err = {
                 status: 500,
@@ -61,7 +61,7 @@ router.post('/add-admin', function (req, res, next) {
     } else {
         var data = {
             name: req.body.name,
-            email_id: req.body.email,
+            email: req.body.email,
             address: req.body.address,
             phone: req.body.phone,
         };

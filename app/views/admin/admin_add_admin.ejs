@@ -11,28 +11,21 @@
                         <div class="col-sm-12">
                             <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
                                 <label>Name</label>
-                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
-                                <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
-                                    <%= typeof admin != 'undefined' && (!!admin.name)? admin.name.trim() : '' %>"
-                                        <% } %> >
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %><%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.name)? admin.name.trim() : '' %>"<% } %> >
                             </div>
                         </div>
                     </div>
                     <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
                         <label>Mailing Address</label>
                         <input type="text" name="address" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
-                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof admin != 'undefined' && (!!admin.address)? admin.address.trim() : '' %>"
-                                <% } %>>
+                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.address)? admin.address.trim() : '' %>"<% } %>>
                     </div>
 
                     <div class="form-group  form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
                         <label>Phone</label>
                         <input type="text" name="phone" class="form-control phone" required="" <% if(typeof viewAdmin==='string' && viewAdmin) {
                             %>
-                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof admin != 'undefined' && (!!admin.phone)? admin.phone.trim() : '' %>"
-                                <% } %>>
+                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.phone)? admin.phone.trim() : '' %>"<% } %>>
                     </div>
                 </div>
             </div>
@@ -49,10 +42,7 @@
                 <div class="panel-body">
                     <div class="form-group form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%> ">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %>
-                        <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof admin != 'undefined' && (!!admin.email_id)? admin.email_id.trim() : '' %>"
-                                <% } %>>
+                        <input type="email" name="email" class="form-control" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %><%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.email)? admin.email.trim() : '' %>"<% } %>>
                     </div>
                     <% if((typeof viewAdmin != 'string') || (typeof viewAdmin == 'string' && viewAdmin == 'edit')) { %>
                         <div class="form-group form-group-default <% if(typeof viewAdmin != 'string') { %>required<%}%>">

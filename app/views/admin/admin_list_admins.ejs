@@ -32,9 +32,8 @@
                         <th>EMAIL</th>
                         <th>ADDRESS</th>
                         <th>PHONE NO.</th>
-                        <th>Terms & Conditions</th>
                         <!--<th>Last Login</th>
-            <th>Login Count</th>-->
+                        <th>Login Count</th>-->
                         <th>ACTION TO BE DONE</th>
                     </tr>
                 </thead>
@@ -45,7 +44,7 @@
                                 <%= admins[i].name %>
                             </td>
                             <td>
-                                <%= admins[i].email_id %>
+                                <%= admins[i].email %>
                             </td>
                             <td>
                                 <%= admins[i].address %>
@@ -53,11 +52,8 @@
                             <td>
                                 <%= admins[i].phone %>
                             </td>
-                            <td>
-                                <%= admins[i].terms_accepted_at !=null ? dateFormat(admins[i].terms_accepted_at,"dd/mm/yyyy hh:MM:ss") : "" %>
-                            </td>
                             <!--<td><%= admins[i].last_login != null ? dateFormat(admins[i].last_login,"dd/mm/yyyy") : ""  %></td>
-            <td><%= admins[i].login_count %></td>-->
+                            <td><%= admins[i].login_count %></td>-->
                             <td class="center">
                                 <div class="btn-group">
                                     <a href="/view-admin/<%= admins[i].id %>" class="btn btn-success" data-toggle="tooltip" data-original-title="View">
@@ -66,13 +62,11 @@
                                     <a href="/edit-admin/<%= admins[i].id %>" class="btn btn-success" data-toggle="tooltip" data-original-title="Edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <!--<% if(admins[i].status==1)
-                      { %>
-                         <a href="javascript:;" class="btn btn-danger" title="Deactivate" data-real-target="#deactive-<%= admins[i].id%>" data-inline-loader="1" data-post-user_id="<%=admins[i].id%>" data-post-status="1" 
-                     data-post-type="1" data-act="ajax-request" data-action-url="/deactivate" data-reload-on-success="true"><i class="fa fa-ban"></i></a><% }
-                      else{ %>
-                          <a href="javascript:;" class="btn btn-success" title="Activate" data-real-target="#deactive-<%= admins[i].id%>" data-inline-loader="1" data-post-user_id="<%= admins[i].id%>" data-post-status="2" data-post-type="1" data-act="ajax-request" data-action-url="/deactivate" data-reload-on-success="true"><i class="fa fa-check"></i></a>
-                      <% }%>-->
+                                    <% if(admins[i].status==1){ %>
+                                    <a href="javascript:;" class="btn btn-danger" title="Deactivate" data-real-target="#deactive-<%= admins[i].id%>" data-inline-loader="1" data-post-user_id="<%=admins[i].id%>" data-post-status="1" data-post-type="1" data-act="ajax-request" data-action-url="/deactivate" data-reload-on-success="true"><i class="fa fa-ban"></i></a>
+                                    <% }else{ %>
+                                    <a href="javascript:;" class="btn btn-success" title="Activate" data-real-target="#deactive-<%= admins[i].id%>" data-inline-loader="1" data-post-user_id="<%= admins[i].id%>" data-post-status="2" data-post-type="1" data-act="ajax-request" data-action-url="/deactivate" data-reload-on-success="true"><i class="fa fa-check"></i></a>
+                                    <% }%>
                                     <% if(admins[i].id != session.admin.id){%>
                                         <a href="javascript:;" data-act="delete-modal" data-parent-elm="tr" data-remove-parent="true" data-url="/delete-admin"
                                             data-method="POST" data-post-id="<%=admins[i].id%>" class="btn btn-danger" data-toggle="tooltip"

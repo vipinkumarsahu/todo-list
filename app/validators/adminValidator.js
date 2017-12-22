@@ -18,7 +18,7 @@ var validators = {
                 errorMessage: 'Invalid Email'
             }
         },
-        /* 'address': { //
+        'address': { //
             notEmpty: true, // won't validate if field is empty
             isLength: {
                 options: [{
@@ -39,13 +39,13 @@ var validators = {
                 }]
             },
             errorMessage: 'Phone number should be minimum 7 and maximum 15 digits'
-        }, */
+        },
         'password': {
             notEmpty: true,
-            matches: {
+            /* matches: {
                 options: [{ min: 4, max: 20 }], // pass options to the validator with the options property as an array
                 options: [/^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/i] // matches also accepts the full expression in the first parameter
-            },
+            }, */
             errorMessage: 'Invalid Password'
         }
     },
@@ -68,7 +68,7 @@ var validators = {
                 errorMessage: 'Invalid Email'
             }
         },
-        /* 'address': { //
+        'address': { //
             notEmpty: true, // won't validate if field is empty
             isLength: {
                 options: [{
@@ -89,7 +89,7 @@ var validators = {
                 }]
             },
             errorMessage: 'Phone number should be minimum 7 and maximum 15 digits'
-        } */
+        }
     }
 }
 module.exports = validators;

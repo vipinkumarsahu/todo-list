@@ -13,7 +13,7 @@ module.exports = function (app) {
 
 //list all users
 router.get('/list-users', function (req, res, next) {
-    User.find({ createdAt: -1 }, function (err, data) {
+    User.find({}, null, { createdAt: -1 }, function (err, data) {
         if (err) {
             var err = {
                 status: 500,

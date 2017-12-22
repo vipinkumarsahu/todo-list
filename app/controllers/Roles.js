@@ -130,7 +130,7 @@ router.post('/add-role', function (req, res, next) {
 });
 
 //Delete a role
-router.post('/delete', function (req, res, next) {
+router.post('/delete-role', function (req, res, next) {
     Role.findByIdAndRemove({ _id: req.body.id }, function (err, role) {
         if (err) {
             var err = {
