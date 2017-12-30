@@ -23,7 +23,7 @@ router.get('/list-users', function (req, res, next) {
         } else {
             res.render('adminLayout', {
                 page: 'admin/admin_list_users',
-                title: 'Ambit',
+                title: 'Koiney',
                 activeSidebar: 'users',
                 users: data
             });
@@ -54,7 +54,7 @@ router.get('/view-user/:id', function (req, res, next) {
         
             res.render('adminLayout', {
                 page: 'admin/admin_add_user',
-                title: 'Ambit',
+                title: 'Koiney',
                 activeSidebar: 'users',
                 user: data,
                 viewUser: "view"
@@ -109,7 +109,7 @@ router.post('/deactivate', function (req, res, next) {
 router.get('/add-user', function (req, res, next) {
     res.render('adminLayout', {
         page: 'admin/admin_add_user',
-        title: 'Ambit',
+        title: 'Koiney',
         activeSidebar: 'users',
         roles: []
     });
@@ -223,7 +223,7 @@ router.get('/edit-user/:id', function (req, res, next) {
         } else {
             res.render('adminLayout', {
                 page: 'admin/admin_add_user',
-                title: 'Ambit',
+                title: 'Koiney',
                 activeSidebar: 'users',
                 user: data,
                 roles: roles,

@@ -35,7 +35,7 @@ router.get('/list-admins', function (req, res, next) {
 router.get('/add-admin', function (req, res, next) {
     res.render('adminLayout', {
         page: 'admin/admin_add_admin',
-        title: 'Ambit',
+        title: 'Koiney',
         activeSidebar: 'admins'
     });
 });
@@ -156,7 +156,7 @@ router.get('/view-admin/:id', function (req, res, next) {
             globalFunctions.admin_logs(log_data);
             res.render('adminLayout', {
                 page: 'admin/admin_add_admin',
-                title: 'Ambit',
+                title: 'Koiney',
                 activeSidebar: 'admins',
                 admin: data,
                 viewAdmin: "view"
@@ -177,7 +177,7 @@ router.get('/edit-admin/:id', function (req, res, next) {
         } else {
             res.render('adminLayout', {
                 page: 'admin/admin_add_admin',
-                title: 'Ambit',
+                title: 'Koiney',
                 activeSidebar: 'admins',
                 admin: data,
                 viewAdmin: "edit"

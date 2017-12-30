@@ -11,7 +11,7 @@ module.exports = function (app) {
 };
 
 //Login Get Function
-router.get('/login', function (req, res, next) {
+router.get(['/login','/'], function (req, res, next) {
     /* var newUser = Admin({
     name: 'Admin',
     email: 'ankit@trancis.com',
