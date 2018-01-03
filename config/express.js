@@ -83,6 +83,20 @@ module.exports = function(app, config) {
     next();
   })
 
+
+   //Is Authorized
+   var isAuthorized = function(route_id,permissions){
+    if(permissions == null || (Object.keys(permissions).length === 0 && permissions.constructor === Object)){
+        return true;
+    }else if(permissions.hasOwnProperty(route_id) && permissions[route_id] != undefined  && permissions[route_id].allowed == true){
+        return true;
+    }else{
+        return false;
+    }
+}
+global.isAuthorized = isAuthorized;
+app.locals.isAuthorized = isAuthorized;
+
   /* Global Functions throughout the controllers */
   global.globalFunctions = globalFunctions;
   //Set Global Config Variables inside views

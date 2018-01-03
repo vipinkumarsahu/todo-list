@@ -3,13 +3,20 @@
 var express = require('express'),
     router = express.Router(),
     path = require('path'),
+    bcrypt = require('bcryptjs'),
     User = require(path.normalize(__dirname + '/../models/UserModel')),
     validator = require(path.normalize(__dirname + '/../validators/userValidator'));
 
 module.exports = function (app) {
     app.use('/', router);
 };
+var saltRounds = 10;
 
+
+var encryptPassword = function(val) {
+    val = bcrypt.hashSync(val, saltRounds);
+    return val;
+};
 
 //list all users
 router.get('/list-users', function (req, res, next) {
@@ -86,11 +93,11 @@ router.post('/deactivate', function (req, res, next) {
                 type: 1, //activate or deactivate user
                 u_id: req.session.admin.id,
                 u_type: 0,
-                discription_text: 'User "' + uldata[0].email + '" is deactivated.'
+                discription_text: 'User "' + user.email + '" is deactivated.'
             };
             if (status == 1) {
                 log_data.action = 'activate user';
-                discription_text: 'User "' + uldata[0].email + '" is activated.'
+                discription_text: 'User "' + user.email + '" is activated.'
             }
             globalFunctions.admin_logs(log_data);
 
@@ -163,7 +170,7 @@ router.post('/add-user', function (req, res, next) {
             });
         } else {
             if (req.body.password != undefined && req.body.password.length > 0) {
-                data.password = encryptPassword(req.body.password);
+                data.password = req.body.password;
             }
             var newUser = new User(data);
             newUser.save(function (err, data2) {
@@ -226,7 +233,6 @@ router.get('/edit-user/:id', function (req, res, next) {
                 title: 'Koiney',
                 activeSidebar: 'users',
                 user: data,
-                roles: roles,
                 viewUser: "edit"
             });
         }

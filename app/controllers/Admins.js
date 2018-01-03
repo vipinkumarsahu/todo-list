@@ -4,6 +4,7 @@ var express = require('express'),
     router = express.Router(),
     path = require('path'),
     Admin = require(path.normalize(__dirname + '/../models/AdminModel')),
+    Role = require(path.normalize(__dirname + '/../models/RoleModel')),    
     validator = require(path.normalize(__dirname + '/../validators/adminValidator'));
 
 module.exports = function (app) {
@@ -12,7 +13,15 @@ module.exports = function (app) {
 
 //list all admins
 router.get('/list-admins', function (req, res, next) {
-    Admin.find({},null,{ createdAt: -1 }, function (err, admins) {
+    Admin.find({},null, //{ 
+    //     $lookup:{
+    //       from: 'roles',
+    //       localField: 'role',
+    //       foreignField: '_id',
+    //       as: 'roledetails'
+    //     }
+    //   },
+         function (err, admins) {
         if (err) {
             var err = {
                 status: 500,
@@ -32,11 +41,24 @@ router.get('/list-admins', function (req, res, next) {
 });
 
 //Add Admin
-router.get('/add-admin', function (req, res, next) {
-    res.render('adminLayout', {
-        page: 'admin/admin_add_admin',
-        title: 'Koiney',
-        activeSidebar: 'admins'
+router.get('/add-admin', function (req, res, next) {    
+    Role.find({status:1}, function (err, role) {
+        if (err) {
+            var err = {
+                status: 500,
+                error: err
+            }
+            globalFunctions.errorPage(res, err);
+        }else{
+            res.render('adminLayout', {
+                page: 'admin/admin_add_admin',
+                title: 'KoineyAdmin',
+                title: 'Koiney',
+                activeSidebar: 'admins',
+                roles: role
+            });
+        }
+        
     });
 });
 
@@ -64,6 +86,7 @@ router.post('/add-admin', function (req, res, next) {
             email: req.body.email,
             address: req.body.address,
             phone: req.body.phone,
+            role:req.body.role
         };
         // check if request is edit type or add type
         if (req.body.editType != undefined && req.body.editType == "true") {
@@ -175,12 +198,23 @@ router.get('/edit-admin/:id', function (req, res, next) {
             }
             globalFunctions.errorPage(res, err);
         } else {
-            res.render('adminLayout', {
-                page: 'admin/admin_add_admin',
-                title: 'Koiney',
-                activeSidebar: 'admins',
-                admin: data,
-                viewAdmin: "edit"
+            Role.find({status:1}, function (err, role) {
+                if (err) {
+                    var err = {
+                        status: 500,
+                        error: err
+                    }
+                    globalFunctions.errorPage(res, err);
+                }else{
+                    res.render('adminLayout', {
+                        page: 'admin/admin_add_admin',
+                        title: 'Koiney',
+                        activeSidebar: 'admins',
+                        admin: data,
+                        viewAdmin: "edit",
+                        roles:role
+                    });
+                }
             });
         }
     });

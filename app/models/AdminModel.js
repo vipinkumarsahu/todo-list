@@ -9,6 +9,7 @@ var AdminSchema = new Schema({
   password: { type: String, required: true },
   address: String,
   phone: String,
+  role: String,
 },{
     timestamps: true
 });

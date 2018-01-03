@@ -12,9 +12,9 @@ module.exports = function (app) {
 
 //Login Get Function
 router.get(['/login','/'], function (req, res, next) {
-    /* var newUser = Admin({
+     /*var newUser = Admin({
     name: 'Admin',
-    email: 'ankit@trancis.com',
+    email: 'suraj@trancis.com',
     password: '123456'
   });
 

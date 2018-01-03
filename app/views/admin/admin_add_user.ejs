@@ -1,4 +1,4 @@
-<form class="myValidation" role="form" method="post" action="/admin/add-user" id="admin-add-user-form" novalidate="novalidate">
+<form class="myValidation" role="form" method="post" action="/add-user" id="admin-add-user-form" novalidate="novalidate">
     <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
@@ -11,62 +11,21 @@
                         <div class="col-sm-12">
                             <div class="form-group form-group-default <% if(typeof viewUser != 'string' || viewUser == 'edit') { %>required<%}%>">
                                 <label>Name</label>
-                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewUser==='string' && viewUser) { %>
-                                <%= (viewUser == 'view') ? 'readonly' : '' %> value="
-                                    <%= typeof user != 'undefined' && (!!user.name)? user.name.trim() : '' %>"
-                                        <% } %> >
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewUser==='string' && viewUser) { %><%= (viewUser == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.name)? user.name.trim() : '' %>"<% } %> >
                             </div>
                         </div>
                     </div>
                     <div class="form-group form-group-default <% if(typeof viewUser != 'string' || viewUser == 'edit') { %>required<%}%>">
                         <label>Mailing Address</label>
                         <input type="text" name="address" class="form-control" required="" <% if(typeof viewUser==='string' && viewUser) { %>
-                        <%= (viewUser == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof user != 'undefined' && (!!user.address)? user.address.trim() : '' %>"
-                                <% } %>>
+                        <%= (viewUser == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.address)? user.address.trim() : '' %>"<% } %>>
                     </div>
 
                     <div class="form-group  form-group-default <% if(typeof viewUser != 'string' || viewUser == 'edit') { %>required<%}%>">
                         <label>Phone</label>
-                        <input type="text" name="phone" class="form-control phone" required="" <% if(typeof viewUser==='string' && viewUser) { %>
-                        <%= (viewUser == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof user != 'undefined' && (!!user.phone)? user.phone.trim() : '' %>"
-                                <% } %>>
-                    </div>
-                    <div class="form-group form-group-default form-group-default <% if(typeof viewUser != 'string' || viewUser == 'edit') { %>required<%}%>">
-                        <label class="">Role</label>
-                        <% if(typeof viewUser == 'string' && viewUser == 'view') { %>
-                            <input type="text" class="form-control" <% if(typeof viewUser==='string' && viewUser) { %>
-                            <%= (viewUser == 'view') ? 'readonly' : '' %> value="
-                                <%= typeof user != 'undefined' && (!!user.role)? user.role.trim() : '' %>"
-                                    <% } %>>
-                                        <% } else { %>
-                                            <select name="role" id="roles" data-placeholder="Select ROle" class="full-width" data-init-plugin="select2" required="" <%
-                                                if(typeof viewUser==='string' && viewUser) { %>
-                                                <%= (viewUser == 'view') ? 'readonly' : '' %>
-                                                    <% } %>>
-                                                        <%
-                              roles.forEach(function(el,i){ %>
-                                                            <option value="<%= el.id %>" <%=( typeof viewUser==='string' && viewUser) ? (!!user.role && user.role==e l.id) ?
-                                                                'selected' : '' : '' %> >
-                                                                <%= el.name %>
-                                                            </option>
-                                                            <% }); %>
-                                            </select>
-                                            <% } %>
-                    </div>
-                    <div class="hide" id="salesperson">
-                        <div class="form-group form-group-default required">
-                            <label>Sales Person</label>
-                            <input type="hidden" name="salesperson" required="" value="<%= typeof viewuser == 'string' && viewUser && user.role == 2 ? user.sales_person : '' %>">
-                            <input name="salesprsn" data-post-type="1" data-min-input="4" data-ajax-url="/admin/get-sales" data-act="ajax-select" id="search-salesman"
-                                class="full-width" data-cb-select="parseSales" <% if(typeof viewUser==='string' && viewUser)
-                                { %>
-                            <%= (viewUser == 'view') ? 'readonly' : '' %> data-placeholder="
-                                <%= typeof user != 'undefined' && (!!user.sales_person) && typeof sales != 'undefined' ? sales : '' %>"
-                                    <% } %>
-                                        <%= typeof sales != 'undefined' && (sales == '') ? 'readonly' : '' %>>
-                        </div>
+                        <input type="text" name="phone" class="form-control phone" required="" <% if(typeof viewUser==='string' && viewUser) {
+                            %>
+                        <%= (viewUser == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.phone)? user.phone.trim() : '' %>"<% } %>>
                     </div>
                 </div>
             </div>
@@ -83,10 +42,7 @@
                 <div class="panel-body">
                     <div class="form-group form-group-default <% if(typeof viewUser != 'string' || viewUser == 'edit') { %>required<%}%> ">
                         <label>Email</label>
-                        <input type="email" name="email" class="form-control" required="" <% if(typeof viewUser==='string' && viewUser) { %>
-                        <%= (viewUser == 'view') ? 'readonly' : '' %> value="
-                            <%= typeof user != 'undefined' && (!!user.email_id)? user.email_id.trim() : '' %>"
-                                <% } %>>
+                        <input type="email" name="email" class="form-control" required="" <% if(typeof viewUser==='string' && viewUser) { %><%= (viewUser == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.email)? user.email.trim() : '' %>"<% } %>>
                     </div>
                     <% if((typeof viewUser != 'string') || (typeof viewUser == 'string' && viewUser == 'edit')) { %>
                         <div class="form-group form-group-default <% if(typeof viewUser != 'string') { %>required<%}%>">
@@ -103,7 +59,7 @@
                             <button class="btn btn-success btn-cons ">
                                 <span class="bold">Save</span>
                             </button>
-                            <a href="/admin/list-users" class="btn btn-success btn-cons">
+                            <a href="/list-users" class="btn btn-success btn-cons">
                                 <span class="bold">Close</span>
                             </a>
                         </div>
@@ -111,7 +67,7 @@
                             <input type="hidden" name="editType" value="true">
                             <input type="hidden" name="userId" value="<%= user.id %>">
                             <% } if(typeof viewUser == 'string' && viewUser == 'view') { %>
-                                <a href="/admin/list-users" class="btn btn-success btn-cons">
+                                <a href="/list-users" class="btn btn-success btn-cons">
                                     <span class="bold">Close</span>
                                 </a>
                                 <% } %>
