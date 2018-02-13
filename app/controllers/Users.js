@@ -3,8 +3,15 @@
 var express = require('express'),
     router = express.Router(),
     path = require('path'),
+    bcrypt = require('bcryptjs'),
     User = require(path.normalize(__dirname + '/../models/UserModel')),
     validator = require(path.normalize(__dirname + '/../validators/userValidator'));
+
+const saltRound = 10;
+var encryptPassword = function(val){
+    val = bcrypt.hashSync(val, saltRound);
+    return val
+}
 
 module.exports = function (app) {
     app.use('/', router);
@@ -27,8 +34,7 @@ router.get('/list-users', function (req, res, next) {
                 activeSidebar: 'users',
                 users: data
             });
-        }
-
+        } 
     });
 });
 
@@ -76,7 +82,7 @@ router.post('/deactivate', function (req, res, next) {
         status: status
     };
     var id = req.body.user_id;
-    User.findOneAndUpdate(id, tableData, function (err, user) {
+    User.findByIdAndUpdate(id, tableData, function (err, user) {
         if (err) {
             res.send(err);
         } else {
@@ -86,11 +92,11 @@ router.post('/deactivate', function (req, res, next) {
                 type: 1, //activate or deactivate user
                 u_id: req.session.admin.id,
                 u_type: 0,
-                discription_text: 'User "' + uldata[0].email + '" is deactivated.'
+                discription_text: 'User "' + user.email + '" is deactivated.'
             };
             if (status == 1) {
                 log_data.action = 'activate user';
-                discription_text: 'User "' + uldata[0].email + '" is activated.'
+                discription_text: 'User "' + user.email + '" is activated.'
             }
             globalFunctions.admin_logs(log_data);
 
@@ -110,8 +116,7 @@ router.get('/add-user', function (req, res, next) {
     res.render('adminLayout', {
         page: 'admin/admin_add_user',
         title: 'Koiney',
-        activeSidebar: 'users',
-        roles: []
+        activeSidebar: 'users'
     });
 });
 
@@ -150,7 +155,7 @@ router.post('/add-user', function (req, res, next) {
         var sendDetails = req.body.sendDetails;
         //check if req is edit type or add type
         if (req.body.editType != undefined && req.body.editType == "true") {
-            User.findOneAndUpdate(req.body.userId, data, function (err, userData) {
+            User.findByIdAndUpdate(req.body.userId, data, function (err, userData) {
                 if (err) {
                     var err = {
                         status: 500,
@@ -225,8 +230,7 @@ router.get('/edit-user/:id', function (req, res, next) {
                 page: 'admin/admin_add_user',
                 title: 'Koiney',
                 activeSidebar: 'users',
-                user: data,
-                roles: roles,
+                user: data, 
                 viewUser: "edit"
             });
         }
