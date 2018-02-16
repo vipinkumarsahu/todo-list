@@ -1,0 +1,130 @@
+<%= JSON.stringify(payment.currency)%>
+<form class="myValidation" role="form" method="post" action="/add-payment" id="admin-add-payment-form" novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Payment Info</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>TXID</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.txid)? payment.txid : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>AMOUNT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.amount)? payment.amount : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>CONFIRMATIONS</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.confirmations)? payment.confirmations : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>ADDRESS</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.address)? payment.address : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>RECEIVE AT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.receive_at)? payment.receive_at : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>DONE AT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.done_at)? payment.done_at : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>STATE</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.state)? payment.state : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>CURRENCY</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.currency)? payment.currency : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>TYPE</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.type)? payment.type : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewPayment != 'string' || viewPayment == 'edit') { %>required<%}%>">
+                                <label>TXOUT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewPayment==='string' && viewPayment) { %>
+                                <%= (viewPayment == 'view') ? 'readonly' : '' %> value="<%= typeof payment != 'undefined' && (!!payment.txout)? payment.txout : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <%  if(typeof viewPayment == 'string' && viewPayment == 'view') { %>
+                        <a href="/list-payments" class="btn btn-success btn-cons">
+                            <span class="bold">Close</span>
+                        </a>
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

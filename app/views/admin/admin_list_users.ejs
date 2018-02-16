@@ -31,7 +31,8 @@
                         <th>NAME</th>
                         <th>EMAIL</th>
                         <th>PHONE NO.</th>
-                        <th>ADDRESS</th> 
+                        <th>ADDRESS</th>
+                        <th>VERIFICATION<br></th> 
                         <th style="width: 360px;">ACTION TO BE DONE</th>
                     </tr>
                 </thead>
@@ -49,7 +50,12 @@
                             </td>
                             <td>
                                 <%= users[i].address %>
-                            </td> 
+                            </td>
+                            <td class="social-m">
+                                Email:<% if(users[i].active){ %><a><i class="fa fa-check" aria-hidden="true"></i> </a><% } else{ %> <a> <i class="fa fa-ban" aria-hidden="true"></i> </a> <% } %> <br>
+                                Mobile: <% if(users[i].isNumberActive){%><a><i class="fa fa-check" aria-hidden="true"></i></a> <% } else{ %><a><i class="fa fa-ban" aria-hidden="true"></i></a> <% } %>  <br>
+                                KYC: <% if(users[i].active){ %><a><i class="fa fa-check" aria-hidden="true"></i> </a> <% } else{ %> <a> <i class="fa fa-ban" aria-hidden="true"></i> </a> <% } %> <br>
+                            </td>
 
                             <td class="center">
                                 <div class="btn-group">
@@ -59,15 +65,13 @@
                                     <a href="/edit-user/<%= users[i].id %>" class="btn btn-success" title="Edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
-                                    <% if(users[i].status==1)
-                      { %>
+                                    <% if(users[i].status==1){ %>
                                         <a href="javascript:;" class="btn btn-danger" title="Deactivate" data-inline-loader="1" data-post-type="1" data-parent-elm="tr"
                                             data-url="/deactivate" data-real-target="#deactive-<%= users[i].id%>" data-act="delete-modal"
                                             data-method="POST" data-post-user_id="<%=users[i].id%>" data-post-status="1" data-reload-on-success="true">
                                             <i class="fa fa-ban" aria-hidden="true"></i>
                                         </a>
-                                        <% }
-                          else{ %>
+                                        <% } else{ %>
                                             <a href="javascript:;" title="Activate" data-parent-elm="tr" data-real-target="#deactive-<%= users[i].id%>" data-url="/deactivate"
                                                 data-post-type="1" data-post-status="2" data-inline-loader="1" data-method="POST"
                                                 data-post-user_id="<%=users[i].id%>" class="btn btn-danger" data-act="delete-modal"

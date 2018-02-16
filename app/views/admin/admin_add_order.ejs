@@ -1,0 +1,129 @@
+<form class="myValidation" role="form" method="post" action="/add-order" id="admin-add-order-form" novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        Order Info</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>FROM CURRENCY CODE</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.from_currency_name)? order.from_currency_name : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>FROM AMOUNT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value=" <%= typeof order != 'undefined' && (!!order.from_amount)? order.from_amount : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>VOLUME</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.volume)? order.volume : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>TO CURRENCY NAME</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.to_currency_name)? order.to_currency_name : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>TO AMOUNT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.to_amount)? order.to_amount : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>STATE</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.state)? order.state : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>FUNDS RECEIVED</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.funds_received)? order.funds_received : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>TRADES COUNT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.trades_count)? order.trades_count : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>DONE AT</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.done_at)? order.done_at : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewOrder != 'string' || viewOrder == 'edit') { %>required<%}%>">
+                                <label>ORDER</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewOrder==='string' && viewOrder) { %>
+                                <%= (viewOrder == 'view') ? 'readonly' : '' %> value="<%= typeof order != 'undefined' && (!!order.order)? order.order : '' %>"
+                                        <% } %> >
+                            </div>
+                        </div>
+                    </div> 
+                    <%  if(typeof viewOrder == 'string' && viewOrder == 'view') { %>
+                            <a href="/list-orders" class="btn btn-success btn-cons">
+                                <span class="bold">Close</span>
+                            </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
