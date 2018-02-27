@@ -142,12 +142,8 @@ router.post('/add-user', function (req, res, next) {
     } else {
         var data = {
             name: req.body.name,
-<<<<<<< Updated upstream
             address: req.body.address,
-            phone: req.body.phone,
-=======
             phoneNumber: req.body.phoneNumber,
->>>>>>> Stashed changes
             email: req.body.email,
             role: req.body.role || 1,
             status: 1,
