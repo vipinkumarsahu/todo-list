@@ -16,7 +16,13 @@ var encryptPassword = function(val){
 module.exports = function (app) {
     app.use('/', router);
 };
+var saltRounds = 10;
 
+
+var encryptPassword = function(val) {
+    val = bcrypt.hashSync(val, saltRounds);
+    return val;
+};
 
 //list all users
 router.get('/list-users', function (req, res, next) {
@@ -164,7 +170,7 @@ router.post('/add-user', function (req, res, next) {
             });
         } else {
             if (req.body.password != undefined && req.body.password.length > 0) {
-                data.password = encryptPassword(req.body.password);
+                data.password = req.body.password;
             }
             var newUser = new User(data);
             newUser.save(function (err, data2) {

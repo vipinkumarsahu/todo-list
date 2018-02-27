@@ -27,6 +27,22 @@
                             %>
                         <%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.phone)? admin.phone.trim() : '' %>"<% } %>>
                     </div>
+                    <div class="form-group form-group-default form-group-default <% if(typeof viewAdmin != 'string' || viewAdmin == 'edit') { %>required<%}%>">
+                        <label class="">Role</label>                    
+                        <% if(typeof viewAdmin == 'string' && viewAdmin == 'view') { %>
+                            <input type="text" class="form-control" <% if(typeof viewAdmin==='string' && viewAdmin) { %><%= (viewAdmin == 'view') ? 'readonly' : '' %> value="<%= typeof admin != 'undefined' && (!!admin.role)? admin.role.trim() : '' %>"<% } %>>
+                        <% } else { %>
+                                            <select name="role" id="roles" data-placeholder="Select ROle" class="full-width" data-init-plugin="select2" required="" <% if(typeof viewAdmin==='string' && viewAdmin) { %> <%= (viewAdmin == 'view') ? 'readonly' : '' %> <% } %>>
+                                                 <% roles.forEach(function(el,i){ %>
+                                                            <option value="<%= el.id %>" <%=( typeof viewAdmin==='string' && viewAdmin) ? (!!admin.role && admin.role== el.id) ?
+                                                                'selected' : '' : '' %> >
+                                                                <%= el.name %>
+                                                            </option>
+                                                            <% }); %>
+                                            </select> 
+                                <% } %>                                         
+                                          
+                    </div>
                 </div>
             </div>
 
