@@ -1,0 +1,127 @@
+    <form class="myValidation" role="form" method="post" action="/add-user" id="admin-add-user-form" novalidate="novalidate">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">
+                            user Info</div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>ProofSelfyAttachment</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc._doc.proofSelfyAttachment)? user.kyc._doc.proofSelfyAttachment : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>ProofDocAttachment</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc._doc.proofDocAttachment)? user.kyc._doc.proofDocAttachment : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>ExpDate</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc._doc.expDate)? user.kyc._doc.expDate : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>IssueDate</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc.issueDate)? user.kyc.issueDate : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>DOCUMENT</label>
+                                    <img src="<%= constGlobals.apiimageUrl+'/'+user.kyc.proofSelfyAttachment %>" height="400" width="450" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>ProofDoc</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc.proofDoc)? user.kyc.proofDoc : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>ProofNo</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc.proofNo)? user.kyc.proofNo : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>trn</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc.trn)? user.kyc.trn : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>Country</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.kyc.contry)? user.kyc.contry : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-default <% if(typeof viewKyc != 'string' || viewKyc == 'edit') { %>required<%}%>">
+                                    <label>EMAIL</label>
+                                    <input type="text" name="name" class="form-control" required="" <% if(typeof viewKyc==='string' && viewKyc) { %>
+                                    <%= (viewKyc == 'view') ? 'readonly' : '' %> value="<%= typeof user != 'undefined' && (!!user.email)? user.email : '' %>"
+                                            <% } %> >
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/Kyc-accept/1/<%= user.id %>" class="btn btn-success btn-cons">
+                            <span class="bold">Accept</span>
+                        </a>
+                        <a href="/Kyc-accept/2/<%= user.id %>" class="btn btn-success btn-cons">
+                            <span class="bold">Reject</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>

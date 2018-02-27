@@ -18,18 +18,7 @@ var validators = {
                 errorMessage: 'Invalid Email'
             }
         },
-        'address': { //
-            notEmpty: true, // won't validate if field is empty
-            isLength: {
-                options: [{
-                    min: 4,
-                    max: 100
-                }],
-                errorMessage: 'address should be between 4 to 100 characters' // Error message for the validator, takes precedent over parameter message
-            },
-            errorMessage: 'Invalid Address'
-        },
-        'phone': { //
+        'phoneNumber': { //
             notEmpty: true, // won't validate if field is empty
             errorMessage: 'Phone column should not be left blank',
             isLength: {
@@ -79,7 +68,7 @@ var validators = {
             },
             errorMessage: 'Invalid Address'
         },
-        'phone': { //
+        'phoneNumber': { //
             notEmpty: true, // won't validate if field is empty
             errorMessage: 'Phone column should not be left blank',
             isLength: {

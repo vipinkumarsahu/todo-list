@@ -89,6 +89,7 @@ module.exports = function(app, config) {
   app.locals.imgUrl = '/img/';
   app.locals.constGlobals = globalConfigs;
   app.locals.dateFormat = globalFunctions.dateFormat;
+  // app.locals.apiimageurl = 'http://localhost:9000/api/users/kyc'
   app.locals.addScripts = function (all) {
     app.locals.scripts = [];
     if (all != undefined) {

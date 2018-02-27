@@ -142,17 +142,17 @@ router.post('/add-user', function (req, res, next) {
     } else {
         var data = {
             name: req.body.name,
+<<<<<<< Updated upstream
             address: req.body.address,
             phone: req.body.phone,
+=======
+            phoneNumber: req.body.phoneNumber,
+>>>>>>> Stashed changes
             email: req.body.email,
             role: req.body.role || 1,
             status: 1,
             notification_type: '{0,1,2}'
         };
-        if (req.body.salesprsn && req.body.salesprsn != "") {
-            data.sales_person = req.body.salesprsn;
-        }
-        var sendDetails = req.body.sendDetails;
         //check if req is edit type or add type
         if (req.body.editType != undefined && req.body.editType == "true") {
             User.findByIdAndUpdate(req.body.userId, data, function (err, userData) {
@@ -236,3 +236,69 @@ router.get('/edit-user/:id', function (req, res, next) {
         }
     });
 });
+
+// kyc-approved
+
+router.get('/kyc/:check', function(req, res, next){
+    let check1 = req.params.check;
+    
+    User.find({'kyc.kycApprove' : check1}, function (err, data) {
+        if (err) {
+            var err = {
+                status: 500,
+                error: err
+            }
+            globalFunctions.errorPage(res, err);
+        } else {
+            res.render('adminLayout', {
+                page: 'admin/admin_list_users',
+                title: 'Koiney',
+                activeSidebar: 'users',
+                users: data
+            });
+        } 
+    });
+})
+
+// View KYC
+router.get('/view-kyc/:id', function(req, res, next){
+    let userId = req.params.id;
+    User.findOne({ _id: userId}, function(err, data){
+        if (err) {
+            var err = {
+                status: 500,
+                error: err
+            }
+            globalFunctions.errorPage(res, err);
+        } else {
+            res.render('adminLayout', {
+                page: 'admin/admin_view_kyc',
+                title: 'Koiney',
+                activeSidebar: 'users',
+                user: data,
+                viewKyc: 'view'
+            });
+        } 
+    })
+})
+
+//KYC Accept or Reject
+
+router.get('/Kyc-accept/:check/:userId', function(req, res, next){
+    let check1 = req.params.check;
+    let userId = req.params.userId;
+    User.findByIdAndUpdate({_id:userId}, {$set: {'kyc.kycApprove': check1}}, function(err, data) {
+        if(err){
+            var err = {
+                status: 500,
+                error: err
+            }
+            globalFunctions.errorPage(res, err);
+        }else{
+
+            res.redirect("/list-users");
+        }
+    });
+});
+
+ 

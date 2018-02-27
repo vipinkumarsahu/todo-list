@@ -12,7 +12,7 @@ module.exports = function (app) {
 
 //Login Get Function
 router.get(['/login','/'], function (req, res, next) {
-    /* var newUser = Admin({
+ /*     var newUser = Admin({
     name: 'Admin',
     email: 'ankit@trancis.com',
     password: '123456'
@@ -23,7 +23,7 @@ router.get(['/login','/'], function (req, res, next) {
     if (err) throw err;
 
     console.log('User created!');
-  }); */
+  });  */
     res.render('login', {
         title: 'KoineyAdmin',
         loginType: 'admin',

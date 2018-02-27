@@ -11,7 +11,9 @@ var gConfig = {
             css: ["css/vendor/bootstrap-datepicker.min.css", "css/vendor/dataTables.bootstrap.min.css", "css/vendor/jquery.dataTables.min.css"]
         }
     },
-    allowedRoutes: ['/login/']
+    allowedRoutes: ['/login/'],
+    apiimageUrl: 'http://localhost:9000/api/shared'
+    
 };
 
 module.exports = gConfig;
