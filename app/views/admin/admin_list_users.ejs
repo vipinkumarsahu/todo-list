@@ -32,11 +32,14 @@
                         <a href="/kyc/0" class="btn btn-primary">KYC Pending</a>
                     </div>
                 </li>
+                <% if(session.admin.role.length != 0 ){ %>
+                    <% if(isAuthorized('user_add', session.admin.role[0]['role_permissions'])){ %>
                 <li>
                     <div class="input-group">
                         <a href="/add-user" class="btn btn-primary">Add Users</a>
                     </div>
                 </li>
+            <% }} %>
             </ul>
         </div>
             
@@ -77,15 +80,23 @@
 
                             <td class="center">
                                 <div class="btn-group">
+                                    <% if( session.admin.role.length != 0 ){ %>
+                                        <% if(isAuthorized('user_view', session.admin.role[0]['role_permissions'])){ %>
                                     <a href="/view-user/<%= users[i].id %>" class="btn btn-success" title="View">
                                         <i class="fa fa-expand"></i>
                                     </a>
+                                    <% }} %>
+                                    <% if( session.admin.role.length != 0 ){ %>
+                                        <% if(isAuthorized('user_edit', session.admin.role[0]['role_permissions'])){ %>
                                     <a href="/edit-user/<%= users[i].id %>" class="btn btn-success" title="Edit">
                                         <i class="fa fa-edit"></i>
                                     </a>
+                                    <% }}%>
                                     <a href="/view-kyc/<%= users[i].id %>" class="btn btn-success" title="View KYC">
                                         <i class="fa fa-expand"></i>
                                     </a>
+                                    <% if(session.admin.role.length != 0){ %>
+                                        <% if(isAuthorized('admin_action', session.admin.role[0]['role_permissions'])){ %>
                                     <% if(users[i].status==1){ %>
                                         <a href="javascript:;" class="btn btn-danger" title="Deactivate" data-inline-loader="1" data-post-type="1" data-parent-elm="tr"
                                             data-url="/deactivate" data-real-target="#deactive-<%= users[i].id%>" data-act="delete-modal"
@@ -105,6 +116,7 @@
                                                     title="Delete">
                                                     <i class="fa fa-trash" aria-hidden="true"></i>
                                                 </a>
+                                                <% }}%>
                                 </div>
                             </td>
                         </tr>

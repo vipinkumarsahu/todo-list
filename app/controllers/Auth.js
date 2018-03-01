@@ -12,9 +12,9 @@ module.exports = function (app) {
 
 //Login Get Function
 router.get(['/login','/'], function (req, res, next) {
-     /*var newUser = Admin({
+    /*  var newUser = Admin({
     name: 'Admin',
-    email: 'suraj@trancis.com',
+    email: 'vipin18sahu@gmail.com',
     password: '123456'
   });
 
@@ -51,7 +51,9 @@ router.post('/login', function (req, res, next) {
             //code to set session from cookie data
         }
         var password = req.body.password;
-        Admin.findOne({ email: req.body.email }, function (err, data) {
+        Admin.findOne({ email: req.body.email })
+             .populate('role')
+             .exec(function (err, data) {
             if (err) {
                 res.send(err);
             } else if (!data) {
@@ -60,6 +62,7 @@ router.post('/login', function (req, res, next) {
                 }]);
                 res.redirect('/login');
             } else {
+
                 data = data.toObject();
                 if (globalFunctions.checkPassword(req.body.password, data.password) /* && data.status != '0'*/) {
                     delete data.password;
@@ -69,8 +72,7 @@ router.post('/login', function (req, res, next) {
                     }
                     else {
                         req.session.role = "admin";
-                    }
-
+                    }  
                     res.redirect('/dashboard');
                 } else {
                     errors.push({

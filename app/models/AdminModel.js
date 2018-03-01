@@ -1,5 +1,7 @@
 // Admin model
 
+const path = require('path');
+const Role = require(path.normalize(__dirname + '/../models/RoleModel'));
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema;
 
@@ -9,7 +11,7 @@ var AdminSchema = new Schema({
   password: { type: String, required: true },
   address: String,
   phone: String,
-  role: String,
+  role: [{type: Schema.Types.ObjectId, ref: 'Role'}],
 },{
     timestamps: true
 });

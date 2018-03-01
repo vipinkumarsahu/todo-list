@@ -13,15 +13,9 @@ module.exports = function (app) {
 
 //list all admins
 router.get('/list-admins', function (req, res, next) {
-    Admin.find({},null, //{ 
-    //     $lookup:{
-    //       from: 'roles',
-    //       localField: 'role',
-    //       foreignField: '_id',
-    //       as: 'roledetails'
-    //     }
-    //   },
-         function (err, admins) {
+    Admin.find({})
+        .populate('role')
+        .exec(function (err, admins) {
         if (err) {
             var err = {
                 status: 500,
@@ -29,6 +23,7 @@ router.get('/list-admins', function (req, res, next) {
             }
             globalFunctions.errorPage(res, err);
         } else {
+            console.log(typeof req.session.admin.role);
             res.render('adminLayout', {
                 page: 'admin/admin_list_admins',
                 title: 'KoineyAdmin',
