@@ -1,0 +1,397 @@
+<!-- <%= JSON.stringify(projectData)%> -->
+<!-- Page Content -->
+<div class="container">
+
+  <div class="row">
+
+    <!-- Blog Entries Column -->
+    <div class="col-md-4 border">
+
+      <div>
+        <p>Inbox</p>
+        <p>Today</p>
+        <p>Next 7 Days</p>
+      </div>
+      <div>
+        <ul class="nav nav-tabs">
+          <li class="active">
+            <a data-toggle="tab" onclick="Show()" href="#project">Project</a>
+          </li>
+          <li>
+            <a data-toggle="tab" onclick="Hide()" href="#labels">Labels</a>
+          </li>
+          <li>
+            <a data-toggle="tab" onclick="Hide()" href="#filters">Filters</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div id="project" class="tab-pane fade in active">
+            <% for(var i = 0 ; i< projectData.length ; i++ ){%>
+              <div class="card">
+                <a href="#" projectId="<%= projectData[i].id %>" target="_check" id="project-task">
+                  <%= projectData[i].projectName %>
+                </a>
+              </div>
+              <%}%>
+          </div>
+          <div id="labels" class="tab-pane fade">
+
+            <p>Some content in menu 1.</p>
+            <p>Some content in menu 1.</p>
+            <p>Some content in menu 1.</p>
+            <p>Some content in menu 1.</p>
+
+          </div>
+          <div id="filters" class="tab-pane fade">
+
+            <p>Some content in menu 2.</p>
+            <p>Some content in menu 2.</p>
+            <p>Some content in menu 2.</p>
+          </div>
+          <form method="POST" id="form2">
+            <div class="card my-2">
+              <h5 class="card-header">+ Add Project</h5>
+              <div class="card-body">
+                <div class="input-group">
+                  <input id="ptype" type="text" name="ptype" class="form-control" placeholder="Add type...">
+                </div>
+                <div class="input-group">
+
+                  <input type="text" name="pname" id="project1" class="form-control" placeholder="Add name...">
+                  <span class="input-group-btn">
+                    <button form="form2" class="btn btn-secondary" type="button" onclick="ajaxCall()">Add</button>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Sidebar Widgets Column -->
+    <div class="col-md-8 ">
+
+
+      <form method="POST" id="form1">
+        <div class="card my-4">
+          <h5 class="card-header">+ Add Tasks</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <input id="pId" type="hidden" name="pId" value="" class="form-control">
+            </div>
+            <div class="input-group">
+              <input type="text" id="task" name="tname" class="form-control" placeholder="Add Task...">
+              <span class="input-group-btn">
+                <button form="form1" class="btn btn-secondary" onclick="ajaxCallTask()" type="button">Add</button>
+              </span>
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <!-- Categories Widget -->
+      <div class="taskAjax">
+
+        <div id="deleteCard">
+          <% for(var j = 0 ; j < projectData.length ; j++){ %>
+            <%if(projectData[j].id == projectId){%>
+              <% for(var i = 0 ; i < projectData[j].subTask.length; i++ ) {%>
+                <div class="card my-4" id="taskCard">
+                  <h5 data-toggle="modal" taskAndProjectId="<%= projectData[j].id %>/<%= projectData[j].subTask[i].id %>" target="_header"
+                    data-target="#myModal" class="card-header">
+                    <%= projectData[j].subTask[i].title %>
+                  </h5>
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <ul class="list-unstyled mb-0">
+                          <li>
+                            <a href="#">Web Design</a>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="col-lg-6">
+                        <ul class="list-unstyled mb-0">
+                          <li>
+                            <a href="#">JavaScript</a>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <%}}}%>
+        </div>
+      </div>
+
+      <!-- Modal for task -->
+
+
+
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" role="dialog">
+        <div class="modal-dialog">
+
+          <!-- Modal content-->
+          <form method="POST" action="/add-members" id="modalForm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Modal Header</h4>
+              </div>
+              <input id="Ids" type="hidden" name="Ids" value="" />
+              <div class="modal-body">
+                <div class="form-group  form-group-default" aria-multiline="true">
+                  <label>Member</label>
+                  <select class="full-width select2-hidden-accessible" data-init-plugin="select2" tabindex="-1" aria-hidden="true" multiple
+                    name="memberId">
+                    <% for (var key in constGlobals.member) {%>
+                      <option value="<%= constGlobals.member[key].val %>">
+                        <%= constGlobals.member[key].name %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+
+                <div class="form-group  form-group-default">
+                  <label>Status</label>
+                  <select class="full-width select2-hidden-accessible" data-init-plugin="select2" tabindex="-1" aria-hidden="true" name="tstatus">
+                    <% for (var key in constGlobals.status) {%>
+                      <option value="<%= constGlobals.status[key].val %>" selected>
+                        <%= constGlobals.status[key].state %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+                <div class="form-group  form-group-default">
+                  <label>Priority</label>
+                  <select class="full-width select2-hidden-accessible" data-init-plugin="select2" tabindex="-1" aria-hidden="true" name="pstatus">
+                    <% for (var key in constGlobals.priority) {%>
+                      <option value="<%= constGlobals.priority[key].val %>" selected>
+                        <%= constGlobals.priority[key].state %>
+                      </option>
+                      <% } %>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="submit" form="modalForm" class="btn btn-success btn-sm">submit</button>
+                <!-- <button type="submit" form="form1" value="Submit" class="btn btn-success btn-sm">Add Task</button> -->
+              </div>
+            </div>
+          </form>
+
+        </div>
+      </div>
+
+
+    </div>
+    <!-- /.row -->
+
+  </div>
+  <!-- /.container -->
+  <style>
+    .border {
+      border-right: 1px dashed #ccc;
+    }
+
+    div a {
+      font: normal 14px Arial;
+      border-top: 1px solid #ccc;
+      display: block;
+      color: black;
+      text-decoration: none;
+      line-height: 26px;
+      padding-left: 5px;
+    }
+
+    a.active {
+      background-color: #50e9e1;
+      color: white;
+      font-weight: bold;
+    }
+  </style>
+
+  <script>
+    $(document).ready(function () {
+      $('#project1').focus();
+      $('#form1').hide();
+      //  $('#task').focus(); 
+
+    });
+    debugger;
+    function Show() {
+      debugger;
+      $('#form2').show();
+    }
+    function Hide() {
+      debugger;
+      $('#form2').hide();
+      $('#form1').hide();
+    }
+    function project_task() {
+      debugger;
+      $('#form1').show();
+      $('#form2').hide();
+      var projectId = $('#project-task').attr("projectId");
+      var check;
+    }
+
+    $('a[target="_check"]').click(function () {
+      $('#form1').show();
+      $('#form2').hide();
+      debugger;
+      var projectId = $(this).attr("projectId");
+
+      $('#pId').val(projectId);
+      // remove classes from all
+      $("a").removeClass("active");
+      // add class to the one we clicked
+      $(this).addClass("active");
+
+      let data = {};
+      data.projectId = projectId;
+
+      $.ajax({
+        type: 'POST',
+        data: data,
+        url: '/list-subTask',
+        success: function (data) {
+          debugger;
+
+          $('#deleteCard').remove();
+          $('.taskAjax').prepend(`<div id="deleteCard"></div>`);
+          for (var dom1 in data.subTask) {
+            debugger;
+            $('#deleteCard').prepend(`<div class="card my-4" id="taskCard"><h5 data-toggle="modal" taskAndProjectId="${data._id}/${data.subTask[dom1]._id}" target="_header"
+                data-target="#myModal" class="card-header">
+                ${data.subTask[dom1].title}
+              </h5>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                        <a href="#">Web Design</a>
+                      </li> 
+                    </ul>
+                  </div>
+                  <div class="col-lg-6">
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                        <a href="#">JavaScript</a>
+                      </li> 
+                    </ul>
+                  </div>
+                </div>
+              </div></div>`);
+          }
+          // location.reload();
+        },
+        error: function (fn, err, res) {
+          debugger;
+          console.log('error')
+        }
+      });
+    });
+
+
+    $('h5[target = "_header"]').click(function () {
+      debugger;
+      var taskAndProjectId = $(this).attr("taskAndProjectId");
+      $('#Ids').val(taskAndProjectId);
+    });
+
+
+
+    // Taks Ajax
+
+    function ajaxCallTask() {
+      debugger;
+      let data = {}
+      data.pId = $('#pId').val();
+      data.tname = $('#task').val();
+
+      $.ajax({
+        type: 'POST',
+        data: data,
+        url: '/add-task1',
+        success: function (data) {
+          debugger;
+
+          $('#deleteCard').remove();
+          $('.taskAjax').prepend(`<div id="deleteCard"></div>`);
+          for (var dom1 in data.subTask) {
+            debugger;
+            $('#deleteCard').prepend(`<div class="card my-4" id="taskCard"><h5 data-toggle="modal" taskAndProjectId="${data._id}/${data.subTask[dom1]._id}" target="_header"
+                data-target="#myModal" class="card-header">
+                ${data.subTask[dom1].title}
+              </h5>
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                        <a href="#">Web Design</a>
+                      </li> 
+                    </ul>
+                  </div>
+                  <div class="col-lg-6">
+                    <ul class="list-unstyled mb-0">
+                      <li>
+                        <a href="#">JavaScript</a>
+                      </li> 
+                    </ul>
+                  </div>
+                </div>
+              </div></div>`);
+          }
+          // location.reload();
+        },
+        error: function (fn, err, res) {
+          debugger;
+          console.log('error')
+        }
+      });
+    }
+
+    // Project Ajax
+
+    function ajaxCall() {
+      debugger;
+      let data = {}
+      data.ptype = $('#ptype').val();
+      data.pname = $('#project1').val();
+
+      $.ajax({
+        type: 'POST',
+        data: data,
+        url: '/add-project1',
+        success: function (data) {
+          debugger;
+
+          $('#project').remove();
+          $('.tab-content').prepend(`<div id="project" class="tab-pane fade in active"></div>`)
+          for (var dom in data) {
+            $('#project').prepend(`<div class="card">
+                <a href="#" projectId="${data[dom]._id}" target="_check" id="project-task">
+                  ${data[dom].projectName}
+                </a>
+              </div>`);
+          }
+          location.reload();
+        },
+        error: function (fn, err, res) {
+          debugger;
+          console.log('error')
+        }
+      });
+    }
+
+
+  </script>

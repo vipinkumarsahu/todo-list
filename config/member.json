@@ -1,0 +1,38 @@
+[
+  {
+    "name": "vipin",
+    "val": "0",
+    "email":"vipin@gmail.com",
+    "phone":"8877887788"
+  },
+  {
+    "name": "vijay",
+    "val": "1",
+    "email":"vijay@gmail.com",
+    "phone":"8877887700"
+  },
+  {
+    "name": "vishal",
+    "val": "2",
+    "email":"vishal@gmail.com",
+    "phone":"8877880088"
+  },
+  {
+    "name": "rahul",
+    "val": "3",
+    "email":"rahul@gmail.com",
+    "phone":"8877007788"
+  },
+  {
+    "name": "ankur",
+    "val": "4",
+    "email":"ankur@gmail.com",
+    "phone":"8800887788"
+  },
+  {
+    "name": "suraj",
+    "val": "5",
+    "email":"suraj@gmail.com",
+    "phone":"8877997788"
+  }
+]
