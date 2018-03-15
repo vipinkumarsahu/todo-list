@@ -1,0 +1,139 @@
+<form class="myValidation" role="form" method="post" action="/add-role" id="admin-add-role-form" novalidate="novalidate">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">
+                        General Info</div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="form-group form-group-default <% if(typeof viewRole != 'string' || viewRole == 'edit') { %>required<%}%>">
+                                <label>Name</label>
+                                <input type="text" name="name" class="form-control" required="" <% if(typeof viewRole==='string' && viewRole) { %>
+                                <%= (viewRole == 'view') ? 'readonly' : '' %> value="<%= (!!role.name) ? role.name.trim() : '' %>"<% } %> >
+                                            <textarea class="hide" name="permissions" id="roles-permissions"><%- typeof role == 'object' && role.role_permissions ? JSON.stringify(role.role_permissions) : JSON.stringify({}) %></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <% if((typeof viewRole != 'string') || (typeof viewRole == 'string' && viewRole == 'edit')) { %>
+                        <div>
+                            <button class="btn btn-success btn-cons ">
+                                <span class="bold">Save</span>
+                            </button>
+                            <a href="/roles" class="btn btn-success btn-cons">
+                                <span class="bold">Close</span>
+                            </a>
+                        </div>
+                        <% } if(typeof viewRole == 'string' && viewRole == 'edit') { %>
+                            <input type="hidden" name="editType" value="true">
+                            <input type="hidden" name="roleId" value="<%= role._id %>">
+                            <% } if(typeof viewRole == 'string' && viewRole == 'view') { %>
+                                <a href="/roles" class="btn btn-success btn-cons">
+                                    <span class="bold">Close</span>
+                                </a>
+                                <% } %>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-title">Permissions</div>
+                </div>
+                <div class="panel-body">
+                    <table id="tblRoles">
+                        <tr>
+                            <th>Role</th>
+                            <th>Allowed</th>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    var obj = {
+        "user_add": {
+            "WidgetID": "user_add",
+            "WidgetName": "Add User",
+            "allowed": false
+        },
+        "user_edit": {
+            "WidgetID": "user_edit",
+            "WidgetName": "Edit User",
+            "allowed": false
+        },
+        "user_view": {
+            "WidgetID": "user_view",
+            "WidgetName": "View User",
+            "allowed": false
+        },
+        "user_action": {
+            "WidgetID": "user_action",
+            "WidgetName": "User Action",
+            "allowed": false
+        },
+        "admin_add": {
+            "WidgetID": "admin_add",
+            "WidgetName": "Add Admin",
+            "allowed": false
+        },
+        "admin_edit": {
+            "WidgetID": "admin_edit",
+            "WidgetName": "Edit Admin",
+            "allowed": false
+        },
+        "admin_view": {
+            "WidgetID": "admin_view",
+            "WidgetName": "View Admin",
+            "allowed": false
+        },
+        "admin_action": {
+            "WidgetID": "admin_action",
+            "WidgetName": "Admin Action",
+            "allowed": false
+        },
+    };
+
+    var buildRolesTable = function (rolesObj, permissionsSaved) {
+        for (var role in rolesObj) {
+            var row = $('<tr id="' + role + '" class="roles-row"><td class="widgetName">' + rolesObj[role].WidgetName + '</td></tr>');
+            if (permissionsSaved[role] != undefined && permissionsSaved[role].allowed == true) {
+                row.append('<td><input class="roleCheck" type="checkbox" checked="checked" /></td>');
+            } else if (permissionsSaved[role] == undefined && rolesObj[role].allowed == true) {
+                row.append('<td><input class="roleCheck" type="checkbox" checked="checked" /></td>');
+            } else {
+                row.append('<td><input class="roleCheck" type="checkbox" /></td>');
+            }
+            $('#tblRoles').append(row);
+        }
+    }
+
+    var getRolesJson = function () {
+        var rolesObj = {};
+        $('#tblRoles tr.roles-row').each(function (i, row) {
+            var $row = $(row);
+            var roleId = $row.attr('id');
+            rolesObj[roleId] = obj[roleId];
+            if ($row.find('.roleCheck').is(":checked")) {
+                rolesObj[roleId].allowed = true;
+            } else {
+                rolesObj[roleId].allowed = false;
+            }
+        });
+        return rolesObj;
+    }
+
+    $(document).ready(function () {
+        var permissionsSaved = JSON.parse($('#roles-permissions').html().trim());
+        buildRolesTable(obj, permissionsSaved);
+    });
+
+    $('#admin-add-role-form').on('submit', function () {
+        $('#roles-permissions').html(JSON.stringify(getRolesJson()));
+    });
+</script>
