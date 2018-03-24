@@ -1,0 +1,14 @@
+[
+  {
+    "state": "Pending",
+    "val": "0"
+  },
+  {
+    "state": "In Progress",
+    "val": "1"
+  },
+  {
+    "state": "Close",
+    "val": "2"
+  }
+]

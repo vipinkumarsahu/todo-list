@@ -1,0 +1,38 @@
+{
+  "0":{
+    "name": "Vipin",
+    "val": "0",
+    "email":"vipin182sahu@gmail.com",
+    "phone":"7376300430"
+  },
+  "1": {
+    "name": "Vipin College",
+    "val": "1",
+    "email":"vipin.trancis@gmail.com",
+    "phone":"9650417176"
+  },
+  "2": {
+    "name": "vishal",
+    "val": "2",
+    "email":"vishal@gmail.com",
+    "phone":"8877880088"
+  },
+  "3": {
+    "name": "rahul",
+    "val": "3",
+    "email":"rahul@gmail.com",
+    "phone":"8877007788"
+  },
+  "4": {
+    "name": "ankur",
+    "val": "4",
+    "email":"ankur@gmail.com",
+    "phone":"8800887788"
+  },
+  "5": {
+    "name": "suraj",
+    "val": "5",
+    "email":"suraj@gmail.com",
+    "phone":"8877997788"
+  }
+}

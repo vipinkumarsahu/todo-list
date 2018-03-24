@@ -132,6 +132,7 @@ $(document).ready(function (argument) {
 
     //Delete Modal
     $('body').on('click', '[data-act=delete-modal]', function () {
+        debugger
         var isLargeModal = $(this).attr('data-modal-lg'),
             actUrl = $(this).attr('data-url'),
             removeParent = $(this).attr('data-remove-parent'),

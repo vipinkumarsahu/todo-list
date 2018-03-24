@@ -1,0 +1,183 @@
+<div class="container" id="2">
+  <div class="row">
+    <div class="col-md-4">
+      <div class="todolist not-done">
+        <h1>Todos</h1>
+        <form method="post" action="/add-task" id="form1">
+          <div class="panel-footer">
+            <div class="input-group">
+              <input id="btn-input" type="text" name="task" class="form-control input-sm" placeholder="Add todo..." />
+              <span class="input-group-btn">
+                <div class="input-group">
+                  <button type="submit" form="form1" value="Submit" class="btn btn-success btn-sm">Add Task</button>
+                </div>
+
+              </span>
+            </div>
+          </div>
+        </form>
+        <hr>
+        <div class="panel-body" id="0">
+          <% var count = 0; %>
+            <table class="table table-striped tableWithSearch">
+              <thead>
+                <tr>
+                  <th>TASK</th>
+                  <th>STATUS</th>
+                  <th>ACTION TO BE DONE</th>
+                </tr>
+              </thead>
+              <tbody class="grid" id="draggable" draggable="true" ondrag="short()" >
+                <% for(let i = 0; i< tasks.length; i++) {
+                if(tasks[i].taskstatus == 0){
+                  count = count +1;
+                %>
+                  <tr class="gradeC check" id="<%= tasks[i].id %>/<%= tasks[i].taskstatus %>">
+                    <td class="col-md-1">
+                      <%= tasks[i].task %>
+                    </td>
+                    <td class="col-md-1">
+                      <%= tasks[i].taskstatus == 0 ? 'Open':tasks[i].taskstatus == 1 ?'In Progress':'Done' %>
+                    </td>
+                    <td class="center col-md-2">
+                      <div class="btn-group">
+
+                        <a href="/task-status/1/<%= tasks[i].id %>" class="btn btn-success" data-toggle="tooltip" data-original-title="In Progress">
+                          <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="javascript:;" data-act="delete-modal" data-parent-elm="tr" data-remove-parent="true" data-url="/delete-task" data-method="POST"
+                          data-post-id="<%=tasks[i].id%>" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }} %>
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="todo-footer">
+        <strong>
+          <span class="count-todos"></span>
+        </strong> Items Left:
+        <%= count %>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="todolist">
+        <h1>In Progress</h1>
+        <div class="panel-body" id="1">
+          <% var count1 = 0; %>
+            <table class="table table-striped tableWithSearch">
+              <thead>
+                <tr>
+                  <th>TASK</th>
+                  <th>STATUS</th>
+                  <th>ACTION TO BE DONE</th>
+                </tr>
+              </thead>
+              <tbody class="grid" id="droppable" draggable="true" ondrag="short()">
+
+                <% for(let i = 0; i< tasks.length; i++) {
+                if(tasks[i].taskstatus == 1){
+                  count1 = count1 + 1;
+                %>
+
+                  <tr class="gradeC" id="<%= tasks[i].id %>/<%= tasks[i].taskstatus %>">
+
+                    <td class="col-md-1">
+                      <%= tasks[i].task %>
+                    </td>
+                    <td class="col-md-1">
+                      <%= tasks[i].taskstatus == 0 ? 'Open':tasks[i].taskstatus == 1 ?'In Progress':'Done' %>
+                    </td>
+                    <td class="center col-md-2">
+                      <div class="btn-group">
+                        <a href="/task-status/2/<%= tasks[i].id %>" class="btn btn-success" data-toggle="tooltip" data-original-title="Done">
+                          <i class="fa fa-expand"></i>
+                        </a>
+                        <a href="javascript:;" data-act="delete-modal" data-parent-elm="tr" data-remove-parent="true" data-url="/delete-task" data-method="POST"
+                          data-post-id="<%=tasks[i].id%>" class="btn btn-danger" data-toggle="tooltip" data-original-title="Delete">
+                          <i class="fa fa-trash" aria-hidden="true"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  <% }} %>
+              </tbody>
+            </table>
+        </div>
+      </div>
+      <div class="todo-footer">
+        <strong>
+          <span class="count-todos"></span>
+        </strong> Items Left:
+        <%= count1 %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function () {
+    $('#btn-input').focus();
+  });
+
+  function short() {
+    debugger;
+    $("#draggable").sortable({
+      connectWith: "#droppable",
+      tolerance: 'pointer',
+      revert: 'invalid',
+      placeholder: 'span2 well placeholder tile',
+      forceHelperSize: true
+    });
+    $("#droppable").sortable({
+      connectWith: "#draggable",
+      tolerance: 'pointer',
+      revert: 'invalid',
+      placeholder: 'span2 well placeholder tile',
+      forceHelperSize: true
+    });
+  }
+
+  function ajax(){
+    debugger;
+    let id = $(this).attr('id');
+    let vlaue = $(this).find('a').attr('href');
+  }
+  /* 
+  debugger;
+    $( "#draggable" ).draggable();
+    $( "#droppable" ).droppable({
+      drop: function( event, ui ) {
+        debugger;
+      let id = $( this )
+          .find( "tr" )
+            .attr( "id" );
+      }
+    }); */
+
+</script>
+<style>
+  tr {
+    display: block;
+  }
+
+  .placeholder {
+    border: 1px solid rgb(73, 242, 248);
+    background-color: rgb(255, 255, 255);
+    -webkit-box-shadow: 0px 0px 10px #888;
+    -moz-box-shadow: 0px 0px 10px #888;
+    box-shadow: 0px 0px 10px #888;
+  }
+
+  .tile {
+    height: 50px;
+  }
+
+  .grid {
+    margin-top: 1em;
+  }
+</style>

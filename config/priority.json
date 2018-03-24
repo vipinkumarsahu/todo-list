@@ -1,0 +1,14 @@
+[
+  {
+    "state": "Low",
+    "val": "0"
+  },
+  {
+    "state": "Medium",
+    "val": "1"
+  },
+  {
+    "state": "High",
+    "val": "2"
+  }
+]

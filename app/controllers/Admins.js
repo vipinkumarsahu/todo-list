@@ -194,7 +194,7 @@ router.get('/edit-admin/:id', function (req, res, next) {
             globalFunctions.errorPage(res, err);
         } else {
             Role.find({status:1}, function (err, role) {
-                if (err) {
+                 if (err) {
                     var err = {
                         status: 500,
                         error: err
